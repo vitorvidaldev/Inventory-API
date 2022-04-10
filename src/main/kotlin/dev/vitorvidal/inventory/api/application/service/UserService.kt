@@ -21,7 +21,7 @@ class UserService(val userRepository: UserRepository) {
         TODO("Not yet implemented")
     }
 
-    fun deleteUserById(userId: UUID) {
+    fun deleteUserById(userId: UUID): Void {
         TODO("Not yet implemented")
     }
 
