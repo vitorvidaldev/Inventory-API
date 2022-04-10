@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class InventoryApiApplication
 
 fun main(args: Array<String>) {
-	runApplication<InventoryApiApplication>(*args)
+    runApplication<InventoryApiApplication>(*args)
 }
