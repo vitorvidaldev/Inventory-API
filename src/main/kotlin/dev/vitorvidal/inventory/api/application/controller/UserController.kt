@@ -6,6 +6,4 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/v1/user")
-class UserController(val userService: UserService) {
-
-}
+class UserController(val userService: UserService)

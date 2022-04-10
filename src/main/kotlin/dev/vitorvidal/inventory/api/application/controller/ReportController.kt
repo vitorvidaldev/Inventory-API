@@ -6,5 +6,4 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/v1/report")
-class ReportController(val reportService: ReportService) {
-}
+class ReportController(val reportService: ReportService)

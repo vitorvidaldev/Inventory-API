@@ -4,6 +4,4 @@ import dev.vitorvidal.inventory.api.domain.repository.ProductRepository
 import org.springframework.stereotype.Service
 
 @Service
-class ProductService(val productRepository: ProductRepository) {
-
-}
+class ProductService(val productRepository: ProductRepository)
