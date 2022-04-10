@@ -16,7 +16,6 @@ class ProductController(val productService: ProductService) {
 
     @GetMapping("/{productId}")
     fun getProductById(@PathVariable(value = "productId") productId: UUID): ResponseEntity<List<ProductVO>> {
-
         return ResponseEntity.status(HttpStatus.CREATED).body(null)
     }
 }

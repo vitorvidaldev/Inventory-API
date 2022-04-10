@@ -9,6 +9,4 @@ class ProductEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     var uuid: UUID = UUID.randomUUID()
-) {
-
-}
+)

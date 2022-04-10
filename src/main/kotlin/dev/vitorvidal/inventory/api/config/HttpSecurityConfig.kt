@@ -14,7 +14,7 @@ class HttpSecurityConfig : WebSecurityConfigurerAdapter() {
             .anyRequest().permitAll()
             .and()
             .formLogin()
-            .disable();
-        http.csrf().disable();
+            .disable()
+        http.csrf().disable()
     }
 }

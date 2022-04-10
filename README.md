@@ -1,6 +1,7 @@
 # Inventory API
 
 API used for inventory management, developed with:
+
 - Kotlin
 - Spring
 - PostgresSQL
@@ -10,12 +11,16 @@ API used for inventory management, developed with:
 ## Features
 
 ### User Features
+
 - Create new user
 - User login
 - User authorization
 - User authentication
+- Change user password
+- Delete user
 
 ### Product Features
+
 - Add new product
 - Retrieve product list
 - Retrieve data from a single product
@@ -23,11 +28,13 @@ API used for inventory management, developed with:
 - Remove product units
 
 ### Sales Features
+
 - Retrieve list of sold products
 - Calculate total amount
 - Allow time based filters
 
 ### Report Features
+
 - Print monthly report in pdf
 
 ## How do I execute the application?
