@@ -35,12 +35,12 @@ class UserController(val userService: UserService) {
     @PutMapping("/{userId}")
     fun changeUserPassword(@PathVariable(value = "userId") userId: UUID): ResponseEntity<UserVO> {
         val userVO: UserVO = userService.changeUserPassword(userId)
-        return ResponseEntity.ok().body(userVO);
+        return ResponseEntity.ok().body(userVO)
     }
 
     @DeleteMapping("/{userId}")
     fun deleteUserById(@PathVariable(value = "userId") userId: UUID): ResponseEntity<Void> {
         userService.deleteUserById(userId)
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
     }
 }
