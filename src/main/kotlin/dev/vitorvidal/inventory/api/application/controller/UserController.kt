@@ -11,7 +11,7 @@ import java.util.*
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/rest/v1/user")
+@RequestMapping("/rest/v1/users")
 class UserController(val userService: UserService) {
 
     @GetMapping("/{userId}")

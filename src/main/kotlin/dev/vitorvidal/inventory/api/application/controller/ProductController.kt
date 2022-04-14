@@ -11,7 +11,7 @@ import java.util.*
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("rest/v1/product")
+@RequestMapping("rest/v1/products")
 class ProductController(val productService: ProductService) {
 
     @GetMapping
