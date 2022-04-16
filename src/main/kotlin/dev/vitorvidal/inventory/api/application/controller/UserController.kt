@@ -22,7 +22,7 @@ class UserController(val userService: UserService) {
         responseCode = "200",
         description = "Retrieve user data"
     )
-    @Secured("ROLE_ADMIN")
+//    @Secured("ROLE_ADMIN")
     @GetMapping("/{userId}")
     fun getUserById(@PathVariable(value = "userId") userId: UUID): ResponseEntity<UserVO> {
         val userVO: UserVO = userService.getUserById(userId)

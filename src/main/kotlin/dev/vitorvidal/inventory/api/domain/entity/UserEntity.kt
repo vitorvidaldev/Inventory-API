@@ -1,12 +1,16 @@
 package dev.vitorvidal.inventory.api.domain.entity
 
+import lombok.Data
+import lombok.NoArgsConstructor
 import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.*
 
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "\"user\"")
-class UserEntity(
+data class UserEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     var userId: UUID,
@@ -14,4 +18,6 @@ class UserEntity(
     var email: String,
     var hashedPassword: String,
     var creationDate: LocalDateTime
-)
+) {
+    constructor(email: String, password: String) : this(UUID.randomUUID(), email, password, LocalDateTime.now())
+}

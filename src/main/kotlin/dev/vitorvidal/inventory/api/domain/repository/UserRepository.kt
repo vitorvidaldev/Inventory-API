@@ -8,5 +8,5 @@ import java.util.*
 @Repository
 interface UserRepository : CrudRepository<UserEntity, UUID> {
 
-    fun getUserEntityByEmail(email: String): UserEntity?
+    fun findUserEntityByEmail(email: String): Optional<UserEntity>
 }

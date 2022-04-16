@@ -1,3 +1,7 @@
 package dev.vitorvidal.inventory.api.domain.vo.user
 
-class UserSignupVO
+
+data class UserSignupVO(
+    val email: String,
+    val password: String
+)
