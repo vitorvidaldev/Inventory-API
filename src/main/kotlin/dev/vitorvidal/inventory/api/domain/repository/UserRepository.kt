@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface UserRepository : CrudRepository<UserEntity, UUID>
+interface UserRepository : CrudRepository<UserEntity, UUID> {
+
+    fun getUserEntityByEmail(email: String): UserEntity?
+}

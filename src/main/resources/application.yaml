@@ -7,3 +7,6 @@ spring:
     hibernate:
       ddl-auto: create
     open-in-view: false
+
+jwt:
+  secret: WzYwLCAtMTE0LCAtMTI4LCAtMTIsIC0xMjgsIDExLCAtODgsIC0xMjAsIDEwNywgMzMsIDY0LCA1OSwgLTcsIDY5LCAxMCwgLTk4LCAtNzUsIDEyMywgMjIsIC0zNSwgNzcsIC0xMTYsIDExMywgOTgsIDExNSwgLTk5LCAtNjMsIC01MiwgMTExLCAtNzMsIC0xMTcsIDQzXQ==
