@@ -6,7 +6,12 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "\"user\"")
-class UserEntity {
+class UserEntity() {
+    constructor(email: String, password: String) : this() {
+        this.email = email
+        this.hashedPassword = password
+    }
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
