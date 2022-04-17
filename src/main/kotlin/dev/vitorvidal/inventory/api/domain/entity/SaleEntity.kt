@@ -5,8 +5,9 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "sale")
-class SaleEntity(
+class SaleEntity {
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    var uuid: UUID = UUID.randomUUID()
-)
+    var saleId: UUID = UUID.randomUUID()
+}

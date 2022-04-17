@@ -1,3 +1,6 @@
 package dev.vitorvidal.inventory.api.domain.vo.product
 
-class RegisterProductVO
+data class RegisterProductVO(
+    val productName: String,
+    val productPrice: String
+)

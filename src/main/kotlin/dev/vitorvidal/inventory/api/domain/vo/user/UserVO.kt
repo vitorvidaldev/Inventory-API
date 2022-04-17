@@ -6,7 +6,7 @@ import java.util.*
 import javax.persistence.Column
 
 @Schema(name = "User", description = "User data")
-class UserVO(
+data class UserVO(
     var userId: UUID = UUID.randomUUID(),
     @Column(unique = true)
     var email: String,
