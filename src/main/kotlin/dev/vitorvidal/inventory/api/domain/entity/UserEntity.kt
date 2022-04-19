@@ -13,7 +13,7 @@ class UserEntity() {
     }
 
     @Id
-    @Column(name = "id")
+    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     val userId: UUID = UUID.randomUUID()
 
@@ -23,6 +23,9 @@ class UserEntity() {
     @Column(name = "password")
     var hashedPassword: String = ""
 
-    @Column(name = "creationDate")
+    @Column(name = "creation_date")
     val creationDate: LocalDateTime = LocalDateTime.now()
+
+    @Column(name = "last_update_date")
+    var lastUpdateDate: LocalDateTime = LocalDateTime.now()
 }

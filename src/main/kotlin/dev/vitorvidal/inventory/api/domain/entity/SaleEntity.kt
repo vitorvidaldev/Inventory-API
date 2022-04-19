@@ -8,11 +8,11 @@ import javax.persistence.*
 @Table(name = "sale")
 class SaleEntity {
     @Id
-    @Column(name = "id")
+    @Column(name = "sale_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     var saleId: UUID = UUID.randomUUID()
 
-    @Column(name = "creationDate")
+    @Column(name = "creation_date")
     val creationDate: LocalDateTime = LocalDateTime.now()
 
     @ManyToOne
