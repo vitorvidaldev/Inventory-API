@@ -27,9 +27,8 @@ class ProductEntity() {
     @OneToMany
     val sales: List<SaleEntity>? = null
 
-    @Column
-    @OneToMany
-    val stocks: List<StockEntity>? = null
+    @OneToOne
+    val stock: StockEntity? = null
 
     constructor(productName: String, productBrand: String) : this() {
         this.productName = productName

@@ -1,11 +1,12 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://localhost:5432/inventory_management
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
   jpa:
-    open-in-view: false
+    hibernate:
+      ddl-auto: create
 
 jwt:
   secret: WzYwLCAtMTE0LCAtMTI4LCAtMTIsIC0xMjgsIDExLCAtODgsIC0xMjAsIDEwNywgMzMsIDY0LCA1OSwgLTcsIDY5LCAxMCwgLTk4LCAtNzUsIDEyMywgMjIsIC0zNSwgNzcsIC0xMTYsIDExMywgOTgsIDExNSwgLTk5LCAtNjMsIC01MiwgMTExLCAtNzMsIC0xMTcsIDQzXQ==

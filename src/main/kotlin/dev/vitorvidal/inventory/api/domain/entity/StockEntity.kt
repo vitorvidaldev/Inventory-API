@@ -18,8 +18,6 @@ class StockEntity {
     @Column(name = "lastUpdateDate")
     var lastUpdateDate: LocalDateTime = LocalDateTime.now()
 
-    @Column
-    @ManyToOne
+    @OneToOne
     val product: ProductEntity? = null
-
 }
