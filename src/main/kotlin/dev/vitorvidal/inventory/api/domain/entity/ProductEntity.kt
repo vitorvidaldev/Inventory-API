@@ -8,19 +8,20 @@ import javax.persistence.*
 @Table(name = "product")
 class ProductEntity() {
     @Id
+    @Column(name = "product_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     val productId: UUID = UUID.randomUUID()
 
-    @Column(name = "productName")
+    @Column(name = "product_name")
     var productName: String = ""
 
-    @Column(name = "productBrand")
+    @Column(name = "product_brand")
     var productBrand: String = ""
 
-    @Column(name = "creationDate")
+    @Column(name = "creation_date")
     val creationDate: LocalDateTime = LocalDateTime.now()
 
-    @Column(name = "lastUpdateDate")
+    @Column(name = "last_update_date")
     var lastUpdateDate: LocalDateTime = LocalDateTime.now()
 
     @Column
@@ -28,6 +29,7 @@ class ProductEntity() {
     val sales: List<SaleEntity>? = null
 
     @OneToOne
+    @JoinColumn(name = "stock_id")
     val stock: StockEntity? = null
 
     constructor(productName: String, productBrand: String) : this() {

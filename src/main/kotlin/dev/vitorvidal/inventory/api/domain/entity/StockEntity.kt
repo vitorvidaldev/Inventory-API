@@ -8,14 +8,14 @@ import javax.persistence.*
 @Table(name = "stock")
 class StockEntity {
     @Id
-    @Column(name = "id")
+    @Column(name = "stock_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     val stockId: UUID = UUID.randomUUID()
 
-    @Column(name = "creationDate")
+    @Column(name = "creation_date")
     val creationDate: LocalDateTime = LocalDateTime.now()
 
-    @Column(name = "lastUpdateDate")
+    @Column(name = "last_update_date")
     var lastUpdateDate: LocalDateTime = LocalDateTime.now()
 
     @OneToOne
