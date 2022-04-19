@@ -26,6 +26,7 @@ class ProductEntity() {
 
     @Column
     @OneToMany
+    @JoinColumn
     val sales: List<SaleEntity>? = null
 
     @OneToOne

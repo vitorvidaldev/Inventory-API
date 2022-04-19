@@ -16,5 +16,6 @@ class SaleEntity {
     val creationDate: LocalDateTime = LocalDateTime.now()
 
     @ManyToOne
+    @JoinColumn(name = "product_id")
     val product: ProductEntity? = null
 }
