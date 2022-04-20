@@ -2,13 +2,15 @@ package dev.vitorvidal.inventory.api.application.service
 
 import dev.vitorvidal.inventory.api.domain.entity.UserEntity
 import dev.vitorvidal.inventory.api.domain.repository.UserRepository
+import dev.vitorvidal.inventory.api.domain.vo.user.UserSignupVO
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
+import org.mockito.Mockito.`when`
+import org.mockito.kotlin.any
 import org.mockito.kotlin.verify
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -96,5 +98,19 @@ internal class UserServiceTest {
         assertEquals("User not found", exception.reason)
 
         verify(userRepository).findUserEntityByEmail(emailMock)
+    }
+
+    @Test
+    fun shouldSignupUserCorrectly() {
+        val userSignupVOMock: UserSignupVO = mock(UserSignupVO::class.java)
+        val userEntityMock: UserEntity = mock(UserEntity::class.java)
+
+        `when`(userRepository.save(any<UserEntity>())).thenReturn(userEntityMock)
+
+        val userSignup = userService.userSignup(userSignupVOMock)
+
+        assertNotNull(userSignup)
+
+        verify(userRepository).save(any<UserEntity>())
     }
 }

@@ -22,7 +22,6 @@ class UserService(val userRepository: UserRepository) {
                 userEntity.get().creationDate
             )
         }
-
         throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")
     }
 
@@ -36,7 +35,6 @@ class UserService(val userRepository: UserRepository) {
                 userEntity.get().creationDate
             )
         }
-
         throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")
     }
 
@@ -48,11 +46,22 @@ class UserService(val userRepository: UserRepository) {
     }
 
     fun userLogin(userLoginVO: UserLoginVO): UserVO {
-        TODO("Not yet implemented")
+        val optionalUser = userRepository.findUserEntityByEmail(userLoginVO.email)
+
+        if (optionalUser.isPresent) {
+            val userEntity = optionalUser.get()
+
+            return UserVO(
+                userEntity.userId,
+                userEntity.email,
+                userEntity.creationDate
+            )
+        }
+        throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")
     }
 
-    fun deleteUserById(userId: UUID): Void {
-        TODO("Not yet implemented")
+    fun deleteUserById(userId: UUID) {
+        userRepository.deleteById(userId)
     }
 
     fun changeUserPassword(userId: UUID): UserVO {
