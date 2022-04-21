@@ -52,6 +52,7 @@ class UserController(val userService: UserService) {
     )
     @PutMapping("/{userId}")
     fun changeUserPassword(@PathVariable(value = "userId") userId: UUID): ResponseEntity<UserVO> {
+        // TODO verify http verb
         val userVO: UserVO = userService.changeUserPassword(userId)
         return ResponseEntity.ok().body(userVO)
     }

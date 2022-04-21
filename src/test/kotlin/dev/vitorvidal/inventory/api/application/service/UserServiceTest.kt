@@ -11,6 +11,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.any
+import org.mockito.kotlin.doNothing
 import org.mockito.kotlin.verify
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -125,5 +126,16 @@ internal class UserServiceTest {
         assertEquals(creationDateMock, userSignup.creationDate)
 
         verify(userRepository).save(any<UserEntity>())
+    }
+
+    @Test
+    fun shouldDeleteUserCorrectly() {
+        val userIdMock = UUID.randomUUID()
+
+        doNothing().`when`(userRepository).deleteById(userIdMock)
+
+        userService.deleteUserById(userIdMock)
+
+        verify(userRepository).deleteById(userIdMock)
     }
 }

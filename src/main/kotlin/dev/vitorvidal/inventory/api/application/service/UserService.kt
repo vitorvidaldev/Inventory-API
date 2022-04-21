@@ -46,25 +46,14 @@ class UserService(val userRepository: UserRepository) {
     }
 
     fun userLogin(userLoginVO: UserLoginVO): UserVO {
-        val optionalUser = userRepository.findUserEntityByEmail(userLoginVO.email)
-
-        if (optionalUser.isPresent) {
-            val userEntity = optionalUser.get()
-
-            return UserVO(
-                userEntity.userId,
-                userEntity.email,
-                userEntity.creationDate
-            )
-        }
-        throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")
-    }
-
-    fun deleteUserById(userId: UUID) {
-        userRepository.deleteById(userId)
+        TODO("Not yet implemented")
     }
 
     fun changeUserPassword(userId: UUID): UserVO {
         TODO("Not yet implemented")
+    }
+
+    fun deleteUserById(userId: UUID) {
+        userRepository.deleteById(userId)
     }
 }
