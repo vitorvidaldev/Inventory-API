@@ -104,12 +104,25 @@ internal class UserServiceTest {
     fun shouldSignupUserCorrectly() {
         val userSignupVOMock: UserSignupVO = mock(UserSignupVO::class.java)
         val userEntityMock: UserEntity = mock(UserEntity::class.java)
+        val emailMock = "email mock"
+        val passwordMock = "password"
+        val userIdMock = UUID.randomUUID()
+        val creationDateMock = LocalDateTime.now()
 
         `when`(userRepository.save(any<UserEntity>())).thenReturn(userEntityMock)
+        `when`(userSignupVOMock.email).thenReturn(emailMock)
+        `when`(userSignupVOMock.password).thenReturn(passwordMock)
+
+        `when`(userEntityMock.userId).thenReturn(userIdMock)
+        `when`(userEntityMock.email).thenReturn(emailMock)
+        `when`(userEntityMock.creationDate).thenReturn(creationDateMock)
 
         val userSignup = userService.userSignup(userSignupVOMock)
 
         assertNotNull(userSignup)
+        assertEquals(emailMock, userSignup.email)
+        assertEquals(userIdMock, userSignup.userId)
+        assertEquals(creationDateMock, userSignup.creationDate)
 
         verify(userRepository).save(any<UserEntity>())
     }
