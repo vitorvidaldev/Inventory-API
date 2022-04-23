@@ -21,7 +21,6 @@ class ProductEntity() {
     @Column(name = "product_price")
     var productPrice: Long = 0
 
-
     @Column(name = "creation_date")
     val creationDate: LocalDateTime = LocalDateTime.now()
 
@@ -41,6 +40,5 @@ class ProductEntity() {
         this.productName = productName
         this.productBrand = productBrand
         this.productPrice = productPrice
-        this.lastUpdateDate = LocalDateTime.now()
     }
 }

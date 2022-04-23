@@ -33,7 +33,6 @@ class ProductController(val productService: ProductService) {
 
     @DeleteMapping("/{productId}")
     fun removeProduct(@PathVariable(value = "productId") productId: UUID): ResponseEntity<Void> {
-        productService.removeProduct(productId)
-        return ResponseEntity.noContent().build()
+        return productService.removeProduct(productId)
     }
 }
