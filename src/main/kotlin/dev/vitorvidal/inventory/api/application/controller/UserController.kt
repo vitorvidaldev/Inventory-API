@@ -1,6 +1,7 @@
 package dev.vitorvidal.inventory.api.application.controller
 
 import dev.vitorvidal.inventory.api.application.service.UserService
+import dev.vitorvidal.inventory.api.domain.vo.user.ChangePasswordVO
 import dev.vitorvidal.inventory.api.domain.vo.user.UserLoginVO
 import dev.vitorvidal.inventory.api.domain.vo.user.UserSignupVO
 import dev.vitorvidal.inventory.api.domain.vo.user.UserVO
@@ -51,9 +52,9 @@ class UserController(val userService: UserService) {
         description = "Change user password"
     )
     @PutMapping("/{userId}")
-    fun changeUserPassword(@PathVariable(value = "userId") userId: UUID): ResponseEntity<UserVO> {
+    fun changeUserPassword(@RequestBody @Valid changePasswordVO: ChangePasswordVO): ResponseEntity<UserVO> {
         // TODO verify http verb
-        val userVO: UserVO = userService.changeUserPassword(userId)
+        val userVO: UserVO = userService.changeUserPassword(changePasswordVO)
         return ResponseEntity.ok().body(userVO)
     }
 

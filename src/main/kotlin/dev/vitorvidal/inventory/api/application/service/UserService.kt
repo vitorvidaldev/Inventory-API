@@ -2,6 +2,7 @@ package dev.vitorvidal.inventory.api.application.service
 
 import dev.vitorvidal.inventory.api.domain.entity.UserEntity
 import dev.vitorvidal.inventory.api.domain.repository.UserRepository
+import dev.vitorvidal.inventory.api.domain.vo.user.ChangePasswordVO
 import dev.vitorvidal.inventory.api.domain.vo.user.UserLoginVO
 import dev.vitorvidal.inventory.api.domain.vo.user.UserSignupVO
 import dev.vitorvidal.inventory.api.domain.vo.user.UserVO
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
+import java.time.LocalDateTime
 import java.util.*
 
 @Slf4j
@@ -23,19 +25,6 @@ class UserService(val userRepository: UserRepository) {
 
     fun getUserById(userId: UUID): UserVO {
         val userEntity = userRepository.findById(userId)
-
-        if (userEntity.isPresent) {
-            return UserVO(
-                userEntity.get().userId,
-                userEntity.get().email,
-                userEntity.get().creationDate
-            )
-        }
-        throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")
-    }
-
-    fun getUserByEmail(email: String): UserVO {
-        val userEntity = userRepository.findUserEntityByEmail(email)
 
         if (userEntity.isPresent) {
             return UserVO(
@@ -61,11 +50,42 @@ class UserService(val userRepository: UserRepository) {
     }
 
     fun userLogin(userLoginVO: UserLoginVO): UserVO {
-        TODO("Not yet implemented")
+        val optionalUser = userRepository.findUserEntityByEmail(userLoginVO.email)
+
+        if (optionalUser.isPresent &&
+            Objects.equals(optionalUser.get().hashedPassword, userLoginVO.password)
+        ) {
+            val userEntity = optionalUser.get()
+            return UserVO(
+                userEntity.userId,
+                userEntity.email,
+                userEntity.creationDate
+            )
+
+        }
+        throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")
     }
 
-    fun changeUserPassword(userId: UUID): UserVO {
-        TODO("Not yet implemented")
+    fun changeUserPassword(changePasswordVO: ChangePasswordVO): UserVO {
+        val optionalUser = userRepository.findById(changePasswordVO.userId)
+
+        if (optionalUser.isPresent &&
+            Objects.equals(optionalUser.get().hashedPassword, changePasswordVO.oldPassword) &&
+            Objects.equals(optionalUser.get().email, changePasswordVO.email)
+        ) {
+            val userEntity = optionalUser.get()
+            userEntity.hashedPassword = changePasswordVO.newPassword
+            userEntity.lastUpdateDate = LocalDateTime.now()
+
+            userRepository.save(userEntity)
+
+            return UserVO(
+                userEntity.userId,
+                userEntity.email,
+                userEntity.creationDate
+            )
+        }
+        throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")
     }
 
     fun deleteUserById(userId: UUID): ResponseEntity<Void> {

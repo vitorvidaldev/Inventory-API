@@ -1,6 +1,7 @@
 package dev.vitorvidal.inventory.api.application.controller
 
 import dev.vitorvidal.inventory.api.application.service.UserService
+import dev.vitorvidal.inventory.api.domain.vo.user.ChangePasswordVO
 import dev.vitorvidal.inventory.api.domain.vo.user.UserLoginVO
 import dev.vitorvidal.inventory.api.domain.vo.user.UserSignupVO
 import dev.vitorvidal.inventory.api.domain.vo.user.UserVO
@@ -73,18 +74,18 @@ internal class UserControllerTest {
 
     @Test
     fun shouldChangeUserPasswordCorrectly() {
-        val userIdMock: UUID = UUID.randomUUID()
         val userVOMock: UserVO = mock(UserVO::class.java)
+        val changePasswordVOMock: ChangePasswordVO = mock(ChangePasswordVO::class.java)
 
-        `when`(userService.changeUserPassword(userIdMock)).thenReturn(userVOMock)
+        `when`(userService.changeUserPassword(changePasswordVOMock)).thenReturn(userVOMock)
 
-        val response = userController.changeUserPassword(userIdMock)
+        val response = userController.changeUserPassword(changePasswordVOMock)
 
         assertNotNull(response)
         assertEquals(HttpStatus.OK, response.statusCode)
         assertEquals(userVOMock, response.body)
 
-        verify(userService).changeUserPassword(userIdMock)
+        verify(userService).changeUserPassword(changePasswordVOMock)
     }
 
     @Test

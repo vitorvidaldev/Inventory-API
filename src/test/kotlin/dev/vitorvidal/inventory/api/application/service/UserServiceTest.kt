@@ -2,6 +2,7 @@ package dev.vitorvidal.inventory.api.application.service
 
 import dev.vitorvidal.inventory.api.domain.entity.UserEntity
 import dev.vitorvidal.inventory.api.domain.repository.UserRepository
+import dev.vitorvidal.inventory.api.domain.vo.user.UserLoginVO
 import dev.vitorvidal.inventory.api.domain.vo.user.UserSignupVO
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -65,43 +66,6 @@ internal class UserServiceTest {
     }
 
     @Test
-    fun shouldGetUserByEmailCorrectly() {
-        val userIdMock = UUID.randomUUID()
-        val userEntityMock = mock(UserEntity::class.java)
-        val emailMock = "test@gmail.com"
-        val creationDateMock = LocalDateTime.now()
-
-        `when`(userRepository.findUserEntityByEmail(emailMock)).thenReturn(Optional.of(userEntityMock))
-        `when`(userEntityMock.userId).thenReturn(userIdMock)
-        `when`(userEntityMock.email).thenReturn(emailMock)
-        `when`(userEntityMock.creationDate).thenReturn(creationDateMock)
-
-        val userVo = userService.getUserByEmail(emailMock)
-
-        assertNotNull(userVo)
-
-        verify(userRepository).findUserEntityByEmail(emailMock)
-        verify(userEntityMock).userId
-        verify(userEntityMock).email
-        verify(userEntityMock).creationDate
-    }
-
-    @Test
-    fun shouldThrowNotFoundExceptionGettingUserByEmail() {
-        val emailMock = "test@gmail.com"
-
-        `when`(userRepository.findUserEntityByEmail(emailMock)).thenReturn(Optional.empty())
-
-        val exception = assertThrows(ResponseStatusException::class.java) { userService.getUserByEmail(emailMock) }
-
-        assertNotNull(exception)
-        assertEquals(HttpStatus.NOT_FOUND, exception.status)
-        assertEquals("User not found", exception.reason)
-
-        verify(userRepository).findUserEntityByEmail(emailMock)
-    }
-
-    @Test
     fun shouldSignupUserCorrectly() {
         val userSignupVOMock: UserSignupVO = mock(UserSignupVO::class.java)
         val userEntityMock: UserEntity = mock(UserEntity::class.java)
@@ -129,6 +93,26 @@ internal class UserServiceTest {
     }
 
     @Test
+    fun shouldThrowConflictExceptionDuringUserSignup() {
+        val userSignupVOMock: UserSignupVO = mock(UserSignupVO::class.java)
+        val emailMock = "email mock"
+        val userEntityMock: UserEntity = mock(UserEntity::class.java)
+
+        `when`(userSignupVOMock.email).thenReturn(emailMock)
+        `when`(userRepository.findUserEntityByEmail(emailMock)).thenReturn(Optional.of(userEntityMock))
+
+        val exception = assertThrows(ResponseStatusException::class.java) {
+            userService.userSignup(userSignupVOMock)
+        }
+
+        assertNotNull(exception)
+        assertEquals(HttpStatus.CONFLICT, exception.status)
+        assertEquals("User already exists", exception.reason)
+
+        verify(userRepository).findUserEntityByEmail(emailMock)
+    }
+
+    @Test
     fun shouldDeleteUserCorrectly() {
         val userIdMock = UUID.randomUUID()
 
@@ -148,5 +132,51 @@ internal class UserServiceTest {
         userService.deleteUserById(userIdMock)
 
         verify(userRepository).deleteById(userIdMock)
+    }
+
+    @Test
+    fun shouldLoginUserCorrectly() {
+        val userLoginVOMock: UserLoginVO = mock(UserLoginVO::class.java)
+        val userEntityMock: UserEntity = mock(UserEntity::class.java)
+
+        val emailMock = "email"
+        val passwordMock = "password"
+        val userIdMock = UUID.randomUUID()
+        val creationDateMock = LocalDateTime.now()
+
+        `when`(userRepository.findUserEntityByEmail(emailMock)).thenReturn(Optional.of(userEntityMock))
+        `when`(userLoginVOMock.email).thenReturn(emailMock)
+        `when`(userLoginVOMock.password).thenReturn(passwordMock)
+
+        `when`(userEntityMock.userId).thenReturn(userIdMock)
+        `when`(userEntityMock.email).thenReturn(emailMock)
+        `when`(userEntityMock.hashedPassword).thenReturn(passwordMock)
+        `when`(userEntityMock.creationDate).thenReturn(creationDateMock)
+
+        val userLogin = userService.userLogin(userLoginVOMock)
+
+        assertNotNull(userLogin)
+        assertEquals(emailMock, userLogin.email)
+
+        verify(userRepository).findUserEntityByEmail(emailMock)
+    }
+
+    @Test
+    fun shouldThrowNotFoundExceptionDuringUserLogin() {
+        val userLoginVOMock: UserLoginVO = mock(UserLoginVO::class.java)
+        val emailMock = "email"
+
+        `when`(userRepository.findUserEntityByEmail(emailMock)).thenReturn(Optional.empty())
+        `when`(userLoginVOMock.email).thenReturn(emailMock)
+
+        val exception = assertThrows(ResponseStatusException::class.java) {
+            userService.userLogin(userLoginVOMock)
+        }
+
+        assertNotNull(exception)
+        assertEquals(HttpStatus.NOT_FOUND, exception.status)
+        assertEquals("User not found", exception.reason)
+
+        verify(userRepository).findUserEntityByEmail(emailMock)
     }
 }
