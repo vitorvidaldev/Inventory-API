@@ -2,6 +2,7 @@ package dev.vitorvidal.inventory.api.application.service
 
 import dev.vitorvidal.inventory.api.domain.entity.UserEntity
 import dev.vitorvidal.inventory.api.domain.repository.UserRepository
+import dev.vitorvidal.inventory.api.domain.vo.user.ChangePasswordVO
 import dev.vitorvidal.inventory.api.domain.vo.user.UserLoginVO
 import dev.vitorvidal.inventory.api.domain.vo.user.UserSignupVO
 import org.junit.jupiter.api.Assertions.*
@@ -178,5 +179,58 @@ internal class UserServiceTest {
         assertEquals("User not found", exception.reason)
 
         verify(userRepository).findUserEntityByEmail(emailMock)
+    }
+
+    @Test
+    fun shouldChangeUserPasswordCorrectly() {
+        val changePasswordVOMock: ChangePasswordVO = mock(ChangePasswordVO::class.java)
+        val userEntityMock: UserEntity = mock(UserEntity::class.java)
+        val userIdMock = UUID.randomUUID()
+        val emailMock = "email"
+        val passwordMock = "password"
+        val creationDateMock = LocalDateTime.now()
+
+        `when`(userRepository.findById(userIdMock)).thenReturn(Optional.of(userEntityMock))
+
+        `when`(changePasswordVOMock.userId).thenReturn(userIdMock)
+        `when`(changePasswordVOMock.email).thenReturn(emailMock)
+        `when`(changePasswordVOMock.oldPassword).thenReturn(passwordMock)
+        `when`(changePasswordVOMock.newPassword).thenReturn(passwordMock)
+
+        `when`(userEntityMock.userId).thenReturn(userIdMock)
+        `when`(userEntityMock.email).thenReturn(emailMock)
+        `when`(userEntityMock.hashedPassword).thenReturn(passwordMock)
+        `when`(userEntityMock.lastUpdateDate).thenReturn(creationDateMock)
+        `when`(userEntityMock.creationDate).thenReturn(creationDateMock)
+
+        val changeUserPassword = userService.changeUserPassword(changePasswordVOMock)
+
+        assertNotNull(changePasswordVOMock)
+        assertEquals(userIdMock, changeUserPassword.userId)
+        assertEquals(emailMock, changeUserPassword.email)
+        assertEquals(creationDateMock, changeUserPassword.creationDate)
+
+        verify(userRepository).findById(userIdMock)
+        verify(userRepository).save(userEntityMock)
+    }
+
+    @Test
+    fun shouldThrowNotFoundExceptionChnagingPassword() {
+        val changePasswordVOMock: ChangePasswordVO = mock(ChangePasswordVO::class.java)
+        val userIdMock = UUID.randomUUID()
+
+        `when`(userRepository.findById(userIdMock)).thenReturn(Optional.empty())
+
+        `when`(changePasswordVOMock.userId).thenReturn(userIdMock)
+
+        val exception = assertThrows(ResponseStatusException::class.java) {
+            userService.changeUserPassword(changePasswordVOMock)
+        }
+
+        assertNotNull(exception)
+        assertEquals(HttpStatus.NOT_FOUND, exception.status)
+        assertEquals("User not found", exception.reason)
+
+        verify(userRepository).findById(userIdMock)
     }
 }
