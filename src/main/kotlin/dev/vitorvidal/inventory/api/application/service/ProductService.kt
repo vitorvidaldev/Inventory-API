@@ -4,7 +4,6 @@ import dev.vitorvidal.inventory.api.domain.entity.ProductEntity
 import dev.vitorvidal.inventory.api.domain.repository.ProductRepository
 import dev.vitorvidal.inventory.api.domain.vo.product.ProductVO
 import dev.vitorvidal.inventory.api.domain.vo.product.RegisterProductVO
-import dev.vitorvidal.inventory.api.domain.vo.product.UpdateProductVO
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -36,7 +35,7 @@ class ProductService(val productRepository: ProductRepository) {
         )
     }
 
-    fun updateStock(productId: UUID, updateProductVO: UpdateProductVO): ProductVO {
+    fun removeProduct(productId: UUID) {
         TODO("Not yet implemented")
     }
 }

@@ -3,7 +3,6 @@ package dev.vitorvidal.inventory.api.application.controller
 import dev.vitorvidal.inventory.api.application.service.ProductService
 import dev.vitorvidal.inventory.api.domain.vo.product.ProductVO
 import dev.vitorvidal.inventory.api.domain.vo.product.RegisterProductVO
-import dev.vitorvidal.inventory.api.domain.vo.product.UpdateProductVO
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -32,12 +31,9 @@ class ProductController(val productService: ProductService) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productVO)
     }
 
-    @PatchMapping("/{productId}")
-    fun updateStock(
-        @PathVariable(value = "productId") productId: UUID,
-        @RequestBody @Valid updateProductVO: UpdateProductVO
-    ): ResponseEntity<ProductVO> {
-        val productVO: ProductVO = productService.updateStock(productId, updateProductVO)
-        return ResponseEntity.ok().body(productVO)
+    @DeleteMapping("/{productId}")
+    fun removeProduct(@PathVariable(value = "productId") productId: UUID): ResponseEntity<Void> {
+        productService.removeProduct(productId)
+        return ResponseEntity.noContent().build()
     }
 }
