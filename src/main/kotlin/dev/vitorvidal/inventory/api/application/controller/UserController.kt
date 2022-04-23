@@ -64,7 +64,6 @@ class UserController(val userService: UserService) {
     )
     @DeleteMapping("/{userId}")
     fun deleteUserById(@PathVariable(value = "userId") userId: UUID): ResponseEntity<Void> {
-        userService.deleteUserById(userId)
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
+        return userService.deleteUserById(userId)
     }
 }

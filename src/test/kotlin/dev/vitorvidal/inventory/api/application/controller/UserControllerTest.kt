@@ -11,6 +11,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.*
 
@@ -90,12 +91,27 @@ internal class UserControllerTest {
     fun shouldDeleteUserByIdCorrectly() {
         val userIdMock: UUID = UUID.randomUUID()
 
-        doNothing().`when`(userService).deleteUserById(userIdMock)
+        `when`(userService.deleteUserById(userIdMock)).thenReturn(ResponseEntity.noContent().build())
 
         val response = userController.deleteUserById(userIdMock)
 
         assertNotNull(response)
         assertEquals(HttpStatus.NO_CONTENT, response.statusCode)
+        assertNull(response.body)
+
+        verify(userService).deleteUserById(userIdMock)
+    }
+
+    @Test
+    fun shouldDeleteUserByIdMultipleTimesCorrectly() {
+        val userIdMock: UUID = UUID.randomUUID()
+
+        `when`(userService.deleteUserById(userIdMock)).thenReturn(ResponseEntity.notFound().build())
+
+        val response = userController.deleteUserById(userIdMock)
+
+        assertNotNull(response)
+        assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
         assertNull(response.body)
 
         verify(userService).deleteUserById(userIdMock)
