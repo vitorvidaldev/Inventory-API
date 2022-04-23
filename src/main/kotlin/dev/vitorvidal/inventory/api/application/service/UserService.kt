@@ -63,7 +63,7 @@ class UserService(val userRepository: UserRepository) {
             )
 
         }
-        throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")
+        throw ResponseStatusException(HttpStatus.NOT_FOUND, "Could not log in")
     }
 
     fun changeUserPassword(changePasswordVO: ChangePasswordVO): UserVO {

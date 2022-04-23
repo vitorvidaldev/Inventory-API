@@ -176,7 +176,7 @@ internal class UserServiceTest {
 
         assertNotNull(exception)
         assertEquals(HttpStatus.NOT_FOUND, exception.status)
-        assertEquals("User not found", exception.reason)
+        assertEquals("Could not log in", exception.reason)
 
         verify(userRepository).findUserEntityByEmail(emailMock)
     }
