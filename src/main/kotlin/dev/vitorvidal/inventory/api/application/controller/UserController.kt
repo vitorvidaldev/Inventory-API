@@ -53,7 +53,6 @@ class UserController(val userService: UserService) {
     )
     @PutMapping("/{userId}")
     fun changeUserPassword(@RequestBody @Valid changePasswordVO: ChangePasswordVO): ResponseEntity<UserVO> {
-        // TODO verify http verb
         val userVO: UserVO = userService.changeUserPassword(changePasswordVO)
         return ResponseEntity.ok().body(userVO)
     }

@@ -25,7 +25,6 @@ API used for inventory management, developed with:
 - Retrieve product list
 - Retrieve data from a single product
 - Remove product from system
-- Remove product units
 
 ### Sales Features
 
