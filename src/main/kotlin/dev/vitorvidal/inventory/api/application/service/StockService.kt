@@ -11,7 +11,7 @@ class StockService(stockRepository: StockRepository) {
         TODO("Not yet implemented")
     }
 
-    fun addProductStock(addStockVO: Any): StockVO {
+    fun updateProductStock(addStockVO: Any): StockVO {
         TODO("Not yet implemented")
     }
 }

@@ -3,6 +3,8 @@ package dev.vitorvidal.inventory.api.application.controller
 import dev.vitorvidal.inventory.api.application.service.ProductService
 import dev.vitorvidal.inventory.api.domain.vo.product.ProductVO
 import dev.vitorvidal.inventory.api.domain.vo.product.RegisterProductVO
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -13,24 +15,46 @@ import javax.validation.Valid
 @RequestMapping("rest/v1/products")
 class ProductController(val productService: ProductService) {
 
+    @Operation(summary = "Returns product list")
+    @ApiResponse(
+        responseCode = "200",
+        description = "Retrieve product list"
+    )
     @GetMapping
     fun getProductList(): ResponseEntity<List<ProductVO>> {
+        // TODO add pagination
         val productVOList: List<ProductVO> = productService.getProductList()
         return ResponseEntity.ok().body(productVOList)
     }
 
+    @Operation(summary = "Get product data by id")
+    @ApiResponse(
+        responseCode = "200",
+        description = "Retrieve product data"
+    )
     @GetMapping("/{productId}")
     fun getProductById(@PathVariable(value = "productId") productId: UUID): ResponseEntity<ProductVO> {
         val productVO: ProductVO = productService.getProductById(productId)
         return ResponseEntity.ok().body(productVO)
     }
 
+    @Operation(summary = "Register product data")
+    @ApiResponse(
+        responseCode = "201",
+        description = "Register new product"
+    )
     @PostMapping
     fun registerProduct(@RequestBody @Valid registerProductVO: RegisterProductVO): ResponseEntity<ProductVO> {
+        // TODO What makes a product unique?
         val productVO: ProductVO = productService.registerProduct(registerProductVO)
         return ResponseEntity.status(HttpStatus.CREATED).body(productVO)
     }
 
+    @Operation(summary = "Delete product by id")
+    @ApiResponse(
+        responseCode = "204, 404",
+        description = "Deletes product data"
+    )
     @DeleteMapping("/{productId}")
     fun removeProduct(@PathVariable(value = "productId") productId: UUID): ResponseEntity<Void> {
         return productService.removeProduct(productId)
