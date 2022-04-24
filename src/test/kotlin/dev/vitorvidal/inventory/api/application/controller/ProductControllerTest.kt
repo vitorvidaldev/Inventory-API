@@ -10,6 +10,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.*
 
@@ -72,7 +73,8 @@ internal class ProductControllerTest {
     fun shouldRemoveProductCorrectly() {
         val productIdMock: UUID = UUID.randomUUID()
 
-        doNothing().`when`(productService).removeProduct(productIdMock)
+        `when`(productService.removeProduct(productIdMock))
+            .thenReturn(ResponseEntity.noContent().build())
 
         val response = productController.removeProduct(productIdMock)
 
