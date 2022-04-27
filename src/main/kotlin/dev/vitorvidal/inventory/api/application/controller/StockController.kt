@@ -1,8 +1,8 @@
 package dev.vitorvidal.inventory.api.application.controller
 
 import dev.vitorvidal.inventory.api.application.service.StockService
+import dev.vitorvidal.inventory.api.domain.vo.stock.SetStockVO
 import dev.vitorvidal.inventory.api.domain.vo.stock.StockVO
-import dev.vitorvidal.inventory.api.domain.vo.stock.UpdateStockVO
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.http.HttpStatus
@@ -32,8 +32,8 @@ class StockController(val stockService: StockService) {
         description = "Update product stock"
     )
     @PostMapping
-    fun updateProductStock(@RequestBody @Valid updateStockVO: UpdateStockVO): ResponseEntity<StockVO> {
-        val stockVO: StockVO = stockService.updateProductStock(updateStockVO)
+    fun updateProductStock(@RequestBody @Valid setStockVO: SetStockVO): ResponseEntity<StockVO> {
+        val stockVO: StockVO = stockService.setProductStock(setStockVO)
         return ResponseEntity.status(HttpStatus.CREATED).body(stockVO)
     }
 }

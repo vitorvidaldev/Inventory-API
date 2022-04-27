@@ -32,8 +32,7 @@ class ProductEntity() {
     @JoinColumn
     val sales: List<SaleEntity>? = null
 
-    @OneToOne
-    @JoinColumn(name = "stock_id")
+    @OneToOne(mappedBy = "product")
     val stock: StockEntity? = null
 
     constructor(productName: String, productBrand: String, productPrice: Long) : this() {

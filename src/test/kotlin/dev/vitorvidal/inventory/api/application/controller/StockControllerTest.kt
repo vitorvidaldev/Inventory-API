@@ -1,8 +1,8 @@
 package dev.vitorvidal.inventory.api.application.controller
 
 import dev.vitorvidal.inventory.api.application.service.StockService
+import dev.vitorvidal.inventory.api.domain.vo.stock.SetStockVO
 import dev.vitorvidal.inventory.api.domain.vo.stock.StockVO
-import dev.vitorvidal.inventory.api.domain.vo.stock.UpdateStockVO
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
@@ -42,17 +42,17 @@ internal class StockControllerTest {
 
     @Test
     fun shouldUpdateProductStockCorrectly() {
-        val updateStockVOMock: UpdateStockVO = mock(UpdateStockVO::class.java)
+        val setStockVOMock: SetStockVO = mock(SetStockVO::class.java)
         val stockVOMock: StockVO = mock(StockVO::class.java)
 
-        `when`(stockService.updateProductStock(updateStockVOMock)).thenReturn(stockVOMock)
+        `when`(stockService.setProductStock(setStockVOMock)).thenReturn(stockVOMock)
 
-        val response = stockController.updateProductStock(updateStockVOMock)
+        val response = stockController.updateProductStock(setStockVOMock)
 
         assertNotNull(response)
         assertEquals(HttpStatus.CREATED, response.statusCode)
         assertEquals(stockVOMock, response.body)
 
-        verify(stockService).updateProductStock(updateStockVOMock)
+        verify(stockService).setProductStock(setStockVOMock)
     }
 }
