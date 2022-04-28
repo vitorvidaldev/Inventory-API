@@ -6,6 +6,7 @@ import java.util.*
 data class ProductVO(
     val id: UUID,
     val productName: String,
+    val productBrand: String,
     val productPrice: Long,
     val creationDate: LocalDateTime,
     val lastUpdateDate: LocalDateTime,

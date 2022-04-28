@@ -30,6 +30,7 @@ internal class ProductServiceTest {
 
         val productIdMock = UUID.randomUUID()
         val productNameMock = "product name"
+        val productBrandMock = "product brand"
         val productPriceMock = 10L
         val creationDateMock = LocalDateTime.now()
         val lastUpdateDateMock = LocalDateTime.now()
@@ -37,6 +38,7 @@ internal class ProductServiceTest {
         `when`(productRepository.findAll()).thenReturn(listOf(productEntityMock))
         `when`(productEntityMock.productId).thenReturn(productIdMock)
         `when`(productEntityMock.productName).thenReturn(productNameMock)
+        `when`(productEntityMock.productBrand).thenReturn(productBrandMock)
         `when`(productEntityMock.productPrice).thenReturn(productPriceMock)
         `when`(productEntityMock.creationDate).thenReturn(creationDateMock)
         `when`(productEntityMock.lastUpdateDate).thenReturn(lastUpdateDateMock)
@@ -54,6 +56,7 @@ internal class ProductServiceTest {
 
         val productIdMock = UUID.randomUUID()
         val productNameMock = "product name"
+        val productBrandMock = "product brand"
         val productPriceMock = 10L
         val creationDateMock = LocalDateTime.now()
         val lastUpdateDateMock = LocalDateTime.now()
@@ -62,6 +65,7 @@ internal class ProductServiceTest {
 
         `when`(productEntityMock.productId).thenReturn(productIdMock)
         `when`(productEntityMock.productName).thenReturn(productNameMock)
+        `when`(productEntityMock.productBrand).thenReturn(productBrandMock)
         `when`(productEntityMock.productPrice).thenReturn(productPriceMock)
         `when`(productEntityMock.creationDate).thenReturn(creationDateMock)
         `when`(productEntityMock.lastUpdateDate).thenReturn(lastUpdateDateMock)
@@ -71,6 +75,7 @@ internal class ProductServiceTest {
         assertNotNull(productById)
         assertEquals(productIdMock, productById.id)
         assertEquals(productNameMock, productById.productName)
+        assertEquals(productBrandMock, productById.productBrand)
         assertEquals(productPriceMock, productById.productPrice)
         assertEquals(creationDateMock, productById.creationDate)
         assertEquals(lastUpdateDateMock, productById.lastUpdateDate)
@@ -115,6 +120,7 @@ internal class ProductServiceTest {
 
         `when`(productEntityMock.productId).thenReturn(productIdMock)
         `when`(productEntityMock.productName).thenReturn(productNameMock)
+        `when`(productEntityMock.productBrand).thenReturn(productBrandMock)
         `when`(productEntityMock.productPrice).thenReturn(productPriceMock)
         `when`(productEntityMock.creationDate).thenReturn(creationDateMock)
         `when`(productEntityMock.lastUpdateDate).thenReturn(lastUpdateDateMock)
@@ -124,6 +130,7 @@ internal class ProductServiceTest {
         assertNotNull(registerProduct)
         assertEquals(productIdMock, registerProduct.id)
         assertEquals(productNameMock, registerProduct.productName)
+        assertEquals(productBrandMock, registerProduct.productBrand)
         assertEquals(productPriceMock, registerProduct.productPrice)
         assertEquals(creationDateMock, registerProduct.creationDate)
         assertEquals(lastUpdateDateMock, registerProduct.lastUpdateDate)

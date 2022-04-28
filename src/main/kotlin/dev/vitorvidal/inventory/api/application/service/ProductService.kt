@@ -31,6 +31,7 @@ class ProductService(val productRepository: ProductRepository) {
                 ProductVO(
                     product.productId,
                     product.productName,
+                    product.productBrand,
                     product.productPrice,
                     product.creationDate,
                     product.lastUpdateDate
@@ -49,6 +50,7 @@ class ProductService(val productRepository: ProductRepository) {
             return ProductVO(
                 productEntity.productId,
                 productEntity.productName,
+                productEntity.productBrand,
                 productEntity.productPrice,
                 productEntity.creationDate,
                 productEntity.lastUpdateDate
@@ -70,6 +72,7 @@ class ProductService(val productRepository: ProductRepository) {
         return ProductVO(
             createdProduct.productId,
             createdProduct.productName,
+            createdProduct.productBrand,
             createdProduct.productPrice,
             createdProduct.creationDate,
             createdProduct.lastUpdateDate
