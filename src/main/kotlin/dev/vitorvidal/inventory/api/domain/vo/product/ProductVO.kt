@@ -7,7 +7,7 @@ data class ProductVO(
     val id: UUID,
     val productName: String,
     val productBrand: String,
-    val productPrice: Long,
+    val productPrice: Double,
     val creationDate: LocalDateTime,
     val lastUpdateDate: LocalDateTime,
 )

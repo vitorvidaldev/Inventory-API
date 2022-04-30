@@ -1,12 +1,17 @@
 package dev.vitorvidal.inventory.api.application.service
 
 import dev.vitorvidal.inventory.api.domain.entity.ProductEntity
+import dev.vitorvidal.inventory.api.domain.filter.ProductFilter
 import dev.vitorvidal.inventory.api.domain.repository.ProductRepository
 import dev.vitorvidal.inventory.api.domain.vo.product.ProductVO
 import dev.vitorvidal.inventory.api.domain.vo.product.RegisterProductVO
 import lombok.extern.slf4j.Slf4j
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -20,25 +25,36 @@ class ProductService(val productRepository: ProductRepository) {
         private val log: Logger = LoggerFactory.getLogger(this::class.java)
     }
 
-    fun getProductList(): List<ProductVO> {
-        // TODO filter by brand
-        // TODO filter by creation date
-        val productList = productRepository.findAll()
+    fun getProductList(productName: String?, productBrand: String?, productPrice: Double?, pageNumber: Int): Page<ProductVO> {
+        // TODO: filter by date
+        val page: Pageable = PageRequest.of(pageNumber, 30, Sort.by("product_name"))
 
-        val productVOList: MutableList<ProductVO> = ArrayList()
-        for (product in productList) {
-            productVOList.add(
-                ProductVO(
-                    product.productId,
-                    product.productName,
-                    product.productBrand,
-                    product.productPrice,
-                    product.creationDate,
-                    product.lastUpdateDate
-                )
+        var productBrandList: List<String> = emptyList()
+        var productNameList: List<String> = emptyList()
+        try {
+            if (productBrand != null) {
+                productBrandList = productBrand.split(",").toList()
+            }
+            if (productName != null) {
+                productNameList = productName.split(",").toList()
+            }
+        } catch (e: Exception) {
+            log.error("[ProductService] Error parsing query parameters")
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST)
+        }
+
+        val productPage = productRepository.getProductByFilter(ProductFilter(productBrandList, productNameList))
+
+        return productPage.map { productEntity ->
+            ProductVO(
+                productEntity.productId,
+                productEntity.productName,
+                productEntity.productBrand,
+                productEntity.productPrice,
+                productEntity.creationDate,
+                productEntity.lastUpdateDate
             )
         }
-        return productVOList
     }
 
     fun getProductById(productId: UUID): ProductVO {

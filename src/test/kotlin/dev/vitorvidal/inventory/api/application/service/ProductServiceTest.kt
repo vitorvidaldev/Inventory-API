@@ -43,7 +43,7 @@ internal class ProductServiceTest {
         `when`(productEntityMock.creationDate).thenReturn(creationDateMock)
         `when`(productEntityMock.lastUpdateDate).thenReturn(lastUpdateDateMock)
 
-        val productList = productService.getProductList()
+        val productList = productService.getProductList(productName, productBrand, productPrice, pageNumber)
 
         assertNotNull(productList)
 

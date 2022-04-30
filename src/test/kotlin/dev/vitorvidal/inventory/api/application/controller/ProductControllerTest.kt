@@ -26,7 +26,7 @@ internal class ProductControllerTest {
     fun shouldGetProductListCorrectly() {
         val productVOMock: ProductVO = mock(ProductVO::class.java)
 
-        `when`(productService.getProductList()).thenReturn(listOf(productVOMock))
+        `when`(productService.getProductList(productName, productBrand, productPrice, pageNumber)).thenReturn(listOf(productVOMock))
 
         val response = productController.getProductList()
 
@@ -34,7 +34,7 @@ internal class ProductControllerTest {
         assertEquals(HttpStatus.OK, response.statusCode)
         assertEquals(listOf(productVOMock), response.body)
 
-        verify(productService).getProductList()
+        verify(productService).getProductList(productName, productBrand, productPrice, pageNumber)
     }
 
     @Test

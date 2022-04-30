@@ -18,8 +18,8 @@ class ProductEntity() {
     @Column(name = "product_brand")
     var productBrand: String = ""
 
-    @Column(name = "product_price")
-    var productPrice: Long = 0
+    @Column(name = "product_price", columnDefinition = "decimal NOT NULL")
+    var productPrice: Double = 0.0
 
     @Column(name = "creation_date")
     val creationDate: LocalDateTime = LocalDateTime.now()
@@ -35,7 +35,7 @@ class ProductEntity() {
     @OneToOne(mappedBy = "product")
     val stock: StockEntity? = null
 
-    constructor(productName: String, productBrand: String, productPrice: Long) : this() {
+    constructor(productName: String, productBrand: String, productPrice: Double) : this() {
         this.productName = productName
         this.productBrand = productBrand
         this.productPrice = productPrice
