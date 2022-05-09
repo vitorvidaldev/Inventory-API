@@ -31,7 +31,7 @@ internal class ProductServiceTest {
         val productIdMock = UUID.randomUUID()
         val productNameMock = "product name"
         val productBrandMock = "product brand"
-        val productPriceMock = 10L
+        val productPriceMock = 10.0
         val creationDateMock = LocalDateTime.now()
         val lastUpdateDateMock = LocalDateTime.now()
 
@@ -43,7 +43,7 @@ internal class ProductServiceTest {
         `when`(productEntityMock.creationDate).thenReturn(creationDateMock)
         `when`(productEntityMock.lastUpdateDate).thenReturn(lastUpdateDateMock)
 
-        val productList = productService.getProductList(productName, productBrand, productPrice, pageNumber)
+        val productList = productService.getProducts(productNameMock, productBrandMock, 0)
 
         assertNotNull(productList)
 
@@ -57,7 +57,7 @@ internal class ProductServiceTest {
         val productIdMock = UUID.randomUUID()
         val productNameMock = "product name"
         val productBrandMock = "product brand"
-        val productPriceMock = 10L
+        val productPriceMock = 10.0
         val creationDateMock = LocalDateTime.now()
         val lastUpdateDateMock = LocalDateTime.now()
 
@@ -108,7 +108,7 @@ internal class ProductServiceTest {
         val productIdMock = UUID.randomUUID()
         val productNameMock = "product name"
         val productBrandMock = "brand"
-        val productPriceMock = 10L
+        val productPriceMock = 10.0
         val creationDateMock = LocalDateTime.now()
         val lastUpdateDateMock = LocalDateTime.now()
 

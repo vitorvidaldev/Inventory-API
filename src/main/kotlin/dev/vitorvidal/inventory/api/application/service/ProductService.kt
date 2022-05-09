@@ -1,7 +1,6 @@
 package dev.vitorvidal.inventory.api.application.service
 
 import dev.vitorvidal.inventory.api.domain.entity.ProductEntity
-import dev.vitorvidal.inventory.api.domain.filter.ProductFilter
 import dev.vitorvidal.inventory.api.domain.repository.ProductRepository
 import dev.vitorvidal.inventory.api.domain.vo.product.ProductVO
 import dev.vitorvidal.inventory.api.domain.vo.product.RegisterProductVO
@@ -25,25 +24,11 @@ class ProductService(val productRepository: ProductRepository) {
         private val log: Logger = LoggerFactory.getLogger(this::class.java)
     }
 
-    fun getProductList(productName: String?, productBrand: String?, productPrice: Double?, pageNumber: Int): Page<ProductVO> {
+    fun getProducts(productName: String?, productBrand: String?, pageNumber: Int): Page<ProductVO> {
         // TODO: filter by date
         val page: Pageable = PageRequest.of(pageNumber, 30, Sort.by("product_name"))
 
-        var productBrandList: List<String> = emptyList()
-        var productNameList: List<String> = emptyList()
-        try {
-            if (productBrand != null) {
-                productBrandList = productBrand.split(",").toList()
-            }
-            if (productName != null) {
-                productNameList = productName.split(",").toList()
-            }
-        } catch (e: Exception) {
-            log.error("[ProductService] Error parsing query parameters")
-            throw ResponseStatusException(HttpStatus.BAD_REQUEST)
-        }
-
-        val productPage = productRepository.getProductByFilter(ProductFilter(productBrandList, productNameList))
+        val productPage = productRepository.findByFilter(productName, productBrand, page)
 
         return productPage.map { productEntity ->
             ProductVO(
@@ -52,6 +37,7 @@ class ProductService(val productRepository: ProductRepository) {
                 productEntity.productBrand,
                 productEntity.productPrice,
                 productEntity.creationDate,
+                productEntity.isActive,
                 productEntity.lastUpdateDate
             )
         }
@@ -69,6 +55,7 @@ class ProductService(val productRepository: ProductRepository) {
                 productEntity.productBrand,
                 productEntity.productPrice,
                 productEntity.creationDate,
+                productEntity.isActive,
                 productEntity.lastUpdateDate
             )
         }
@@ -91,6 +78,7 @@ class ProductService(val productRepository: ProductRepository) {
             createdProduct.productBrand,
             createdProduct.productPrice,
             createdProduct.creationDate,
+            productEntity.isActive,
             createdProduct.lastUpdateDate
         )
     }

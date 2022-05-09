@@ -21,10 +21,13 @@ class ProductEntity() {
     @Column(name = "product_price", columnDefinition = "decimal NOT NULL")
     var productPrice: Double = 0.0
 
-    @Column(name = "creation_date")
+    @Column(name = "created_at")
     val creationDate: LocalDateTime = LocalDateTime.now()
 
-    @Column(name = "last_update_date")
+    @Column(name = "status")
+    val isActive: Boolean = true
+
+    @Column(name = "updated_at")
     var lastUpdateDate: LocalDateTime = LocalDateTime.now()
 
     @Column

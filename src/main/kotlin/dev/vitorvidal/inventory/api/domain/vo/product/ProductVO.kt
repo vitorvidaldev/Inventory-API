@@ -9,5 +9,6 @@ data class ProductVO(
     val productBrand: String,
     val productPrice: Double,
     val creationDate: LocalDateTime,
+    val isActive: Boolean,
     val lastUpdateDate: LocalDateTime,
 )

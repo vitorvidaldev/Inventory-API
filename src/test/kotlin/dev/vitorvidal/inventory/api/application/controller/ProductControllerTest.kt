@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
+import org.springframework.data.domain.PageImpl
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -25,16 +26,19 @@ internal class ProductControllerTest {
     @Test
     fun shouldGetProductListCorrectly() {
         val productVOMock: ProductVO = mock(ProductVO::class.java)
+        val productNameMock = "product name"
+        val productBrandMock = "brand"
+        val pageNumberMock = 0
 
-        `when`(productService.getProductList(productName, productBrand, productPrice, pageNumber)).thenReturn(listOf(productVOMock))
+        `when`(productService.getProducts(productNameMock, productBrandMock, pageNumberMock)).thenReturn(PageImpl(listOf(productVOMock)))
 
-        val response = productController.getProductList()
+        val response = productController.getProducts(productNameMock, productBrandMock, pageNumberMock)
 
         assertNotNull(response)
         assertEquals(HttpStatus.OK, response.statusCode)
-        assertEquals(listOf(productVOMock), response.body)
+        assertEquals(listOf(productVOMock), response.body?.content)
 
-        verify(productService).getProductList(productName, productBrand, productPrice, pageNumber)
+        verify(productService).getProducts(productNameMock, productBrandMock, pageNumberMock)
     }
 
     @Test

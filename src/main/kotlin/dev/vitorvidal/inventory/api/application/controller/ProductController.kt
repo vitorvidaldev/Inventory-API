@@ -19,13 +19,12 @@ class ProductController(val productService: ProductService) {
     @Operation(summary = "Returns product list")
     @ApiResponse(responseCode = "200", description = "Retrieve product list")
     @GetMapping
-    fun getProductList(
+    fun getProducts(
         @RequestParam(value = "name", required = false) productName: String?,
         @RequestParam(value = "brand", required = false) productBrand: String?,
-        @RequestParam(value = "price", required = false) productPrice: Double?,
         @RequestParam(value = "page", required = false, defaultValue = "0") pageNumber: Int
     ): ResponseEntity<Page<ProductVO>> {
-        val productVOList: Page<ProductVO> = productService.getProductList(productName, productBrand, productPrice, pageNumber)
+        val productVOList: Page<ProductVO> = productService.getProducts(productName, productBrand, pageNumber)
         return ResponseEntity.ok().body(productVOList)
     }
 
@@ -41,7 +40,6 @@ class ProductController(val productService: ProductService) {
     @ApiResponse(responseCode = "201", description = "Register new product")
     @PostMapping
     fun registerProduct(@RequestBody @Valid registerProductVO: RegisterProductVO): ResponseEntity<ProductVO> {
-        // TODO What makes a product unique?
         val productVO: ProductVO = productService.registerProduct(registerProductVO)
         return ResponseEntity.status(HttpStatus.CREATED).body(productVO)
     }
