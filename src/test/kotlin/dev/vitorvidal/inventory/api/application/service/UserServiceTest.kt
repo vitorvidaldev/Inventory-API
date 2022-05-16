@@ -151,7 +151,7 @@ internal class UserServiceTest {
 
         `when`(userEntityMock.userId).thenReturn(userIdMock)
         `when`(userEntityMock.email).thenReturn(emailMock)
-        `when`(userEntityMock.hashedPassword).thenReturn(passwordMock)
+        `when`(userEntityMock.password).thenReturn(passwordMock)
         `when`(userEntityMock.creationDate).thenReturn(creationDateMock)
 
         val userLogin = userService.userLogin(userLoginVOMock)
@@ -199,7 +199,7 @@ internal class UserServiceTest {
 
         `when`(userEntityMock.userId).thenReturn(userIdMock)
         `when`(userEntityMock.email).thenReturn(emailMock)
-        `when`(userEntityMock.hashedPassword).thenReturn(passwordMock)
+        `when`(userEntityMock.password).thenReturn(passwordMock)
         `when`(userEntityMock.lastUpdateDate).thenReturn(creationDateMock)
         `when`(userEntityMock.creationDate).thenReturn(creationDateMock)
 

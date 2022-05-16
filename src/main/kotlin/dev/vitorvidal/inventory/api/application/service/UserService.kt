@@ -53,7 +53,7 @@ class UserService(val userRepository: UserRepository) {
         val optionalUser = userRepository.findUserEntityByEmail(userLoginVO.email)
 
         if (optionalUser.isPresent &&
-            Objects.equals(optionalUser.get().hashedPassword, userLoginVO.password)
+            Objects.equals(optionalUser.get().password, userLoginVO.password)
         ) {
             val userEntity = optionalUser.get()
             return UserVO(
@@ -70,11 +70,11 @@ class UserService(val userRepository: UserRepository) {
         val optionalUser = userRepository.findById(changePasswordVO.userId)
 
         if (optionalUser.isPresent &&
-            Objects.equals(optionalUser.get().hashedPassword, changePasswordVO.oldPassword) &&
+            Objects.equals(optionalUser.get().password, changePasswordVO.oldPassword) &&
             Objects.equals(optionalUser.get().email, changePasswordVO.email)
         ) {
             val userEntity = optionalUser.get()
-            userEntity.hashedPassword = changePasswordVO.newPassword
+            userEntity.password = changePasswordVO.newPassword
             userEntity.lastUpdateDate = LocalDateTime.now()
 
             userRepository.save(userEntity)

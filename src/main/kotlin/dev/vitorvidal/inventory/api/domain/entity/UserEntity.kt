@@ -9,7 +9,7 @@ import javax.persistence.*
 class UserEntity() {
     constructor(email: String, password: String) : this() {
         this.email = email
-        this.hashedPassword = password
+        this.password = password
     }
 
     @Id
@@ -21,7 +21,7 @@ class UserEntity() {
     var email: String = ""
 
     @Column(name = "password")
-    var hashedPassword: String = ""
+    var password: String = ""
 
     @Column(name = "creation_date")
     val creationDate: LocalDateTime = LocalDateTime.now()
