@@ -24,7 +24,7 @@ class ProductEntity() {
     @Column(name = "created_at")
     val creationDate: LocalDateTime = LocalDateTime.now()
 
-    @Column(name = "status")
+    @Column(name = "is_active")
     val isActive: Boolean = true
 
     @Column(name = "updated_at")

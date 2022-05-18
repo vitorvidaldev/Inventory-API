@@ -26,6 +26,11 @@ API used for inventory management, developed with:
 - Retrieve data from a single product
 - Remove product from system
 
+### Stock Features
+
+- Define the stock for a given product
+- Get the current stock for a given product
+
 ### Sales Features
 
 - Retrieve list of sold products
