@@ -21,13 +21,12 @@ class StockEntity() {
     @Column(name = "last_update_date")
     lateinit var lastUpdateDate: LocalDateTime
 
-    @OneToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name = "product_id", referencedColumnName = "product_id")
-    lateinit var product: ProductEntity
+    @Column(name = "product_id")
+    lateinit var productId: UUID
 
-    constructor(stock: Int, productEntity: ProductEntity) : this() {
+    constructor(stock: Int, productId: UUID) : this() {
         this.stock = stock
-        this.product = productEntity
+        this.productId = productId
         this.creationDate = LocalDateTime.now()
         this.lastUpdateDate = LocalDateTime.now()
     }

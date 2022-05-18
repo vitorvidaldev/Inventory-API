@@ -30,14 +30,6 @@ class ProductEntity() {
     @Column(name = "updated_at")
     var lastUpdateDate: LocalDateTime = LocalDateTime.now()
 
-    @Column
-    @OneToMany
-    @JoinColumn
-    val sales: List<SaleEntity>? = null
-
-    @OneToOne(mappedBy = "product")
-    val stock: StockEntity? = null
-
     constructor(productName: String, productBrand: String, productPrice: Double) : this() {
         this.productName = productName
         this.productBrand = productBrand
