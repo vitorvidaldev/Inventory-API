@@ -11,7 +11,7 @@ import java.util.*
 
 @Service
 class StockService(val stockRepository: StockRepository) {
-    fun getCurrentProductStock(productId: UUID): StockVO {
+    fun getProductStock(productId: UUID): StockVO {
         val optionalStock: Optional<StockEntity> = stockRepository.findByProductId(productId)
 
         if (optionalStock.isPresent) {
@@ -20,10 +20,10 @@ class StockService(val stockRepository: StockRepository) {
             return StockVO(
                 stockEntity.stockId,
                 stockEntity.productId,
-                stockEntity.stock
+                stockEntity.value
             )
         }
-        throw ResponseStatusException(HttpStatus.NOT_FOUND, "Product stock not found")
+        throw ResponseStatusException(HttpStatus.NOT_FOUND, "Stock not found for product $productId")
     }
 
     fun setProductStock(setStockVO: SetStockVO): StockVO {
@@ -31,13 +31,13 @@ class StockService(val stockRepository: StockRepository) {
             val optionalStock = stockRepository.findById(setStockVO.stockId)
             if (optionalStock.isPresent) {
                 val stockEntity = optionalStock.get()
-                stockEntity.stock = setStockVO.stock
+                stockEntity.value = setStockVO.value
                 stockRepository.save(stockEntity)
-                return StockVO(stockEntity.stockId, stockEntity.productId, stockEntity.stock)
+                return StockVO(stockEntity.stockId, stockEntity.productId, stockEntity.value)
             }
         }
-        val stockEntity = StockEntity(setStockVO.stock, setStockVO.productId)
+        val stockEntity = StockEntity(setStockVO.value, setStockVO.productId)
         stockRepository.save(stockEntity)
-        return StockVO(stockEntity.stockId, stockEntity.productId, stockEntity.stock)
+        return StockVO(stockEntity.stockId, stockEntity.productId, stockEntity.value)
     }
 }

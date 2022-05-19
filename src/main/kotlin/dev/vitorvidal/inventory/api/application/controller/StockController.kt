@@ -22,7 +22,7 @@ class StockController(val stockService: StockService) {
     )
     @GetMapping("/{productId}")
     fun getCurrentProductStock(@PathVariable(name = "productId") productId: UUID): ResponseEntity<StockVO> {
-        val stockVO: StockVO = stockService.getCurrentProductStock(productId)
+        val stockVO: StockVO = stockService.getProductStock(productId)
         return ResponseEntity.ok().body(stockVO)
     }
 

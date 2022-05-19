@@ -13,7 +13,7 @@ class StockEntity() {
     var stockId: UUID = UUID.randomUUID()
 
     @Column(name = "stock")
-    var stock: Int = 0
+    var value: Int = 0
 
     @Column(name = "creation_date")
     lateinit var creationDate: LocalDateTime
@@ -25,7 +25,7 @@ class StockEntity() {
     lateinit var productId: UUID
 
     constructor(stock: Int, productId: UUID) : this() {
-        this.stock = stock
+        this.value = stock
         this.productId = productId
         this.creationDate = LocalDateTime.now()
         this.lastUpdateDate = LocalDateTime.now()

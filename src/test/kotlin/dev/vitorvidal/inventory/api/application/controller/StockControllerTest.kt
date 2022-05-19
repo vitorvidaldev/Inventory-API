@@ -29,7 +29,7 @@ internal class StockControllerTest {
         val productIdMock: UUID = UUID.randomUUID()
         val stockVOMock: StockVO = mock(StockVO::class.java)
 
-        `when`(stockService.getCurrentProductStock(productIdMock)).thenReturn(stockVOMock)
+        `when`(stockService.getProductStock(productIdMock)).thenReturn(stockVOMock)
 
         val response = stockController.getCurrentProductStock(productIdMock)
 
@@ -37,7 +37,7 @@ internal class StockControllerTest {
         assertEquals(HttpStatus.OK, response.statusCode)
         assertEquals(stockVOMock, response.body)
 
-        verify(stockService).getCurrentProductStock(productIdMock)
+        verify(stockService).getProductStock(productIdMock)
     }
 
     @Test
