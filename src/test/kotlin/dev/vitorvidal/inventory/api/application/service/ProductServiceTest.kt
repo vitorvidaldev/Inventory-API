@@ -9,7 +9,9 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
+import org.mockito.kotlin.any
 import org.springframework.dao.EmptyResultDataAccessException
+import org.springframework.data.domain.PageImpl
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.web.server.ResponseStatusException
@@ -29,6 +31,7 @@ internal class ProductServiceTest {
         val productEntityMock: ProductEntity = mock(ProductEntity::class.java)
 
         val productIdMock = UUID.randomUUID()
+        val userIdMock = UUID.randomUUID()
         val productNameMock = "product name"
         val productBrandMock = "product brand"
         val productPriceMock = 10.0
@@ -42,12 +45,25 @@ internal class ProductServiceTest {
         `when`(productEntityMock.productPrice).thenReturn(productPriceMock)
         `when`(productEntityMock.creationDate).thenReturn(creationDateMock)
         `when`(productEntityMock.lastUpdateDate).thenReturn(lastUpdateDateMock)
+        `when`(productEntityMock.userId).thenReturn(userIdMock)
+
+        `when`(
+            productRepository.findByFilter(
+                eq(productNameMock),
+                eq(productBrandMock),
+                any()
+            )
+        ).thenReturn(PageImpl(listOf(productEntityMock)))
 
         val productList = productService.getProducts(productNameMock, productBrandMock, 0)
 
         assertNotNull(productList)
 
-        verify(productRepository).findAll()
+        verify(productRepository).findByFilter(
+            eq(productNameMock),
+            eq(productBrandMock),
+            any()
+        )
     }
 
     @Test
@@ -55,6 +71,7 @@ internal class ProductServiceTest {
         val productEntityMock = mock(ProductEntity::class.java)
 
         val productIdMock = UUID.randomUUID()
+        val userIdMock = UUID.randomUUID()
         val productNameMock = "product name"
         val productBrandMock = "product brand"
         val productPriceMock = 10.0
@@ -69,6 +86,7 @@ internal class ProductServiceTest {
         `when`(productEntityMock.productPrice).thenReturn(productPriceMock)
         `when`(productEntityMock.creationDate).thenReturn(creationDateMock)
         `when`(productEntityMock.lastUpdateDate).thenReturn(lastUpdateDateMock)
+        `when`(productEntityMock.userId).thenReturn(userIdMock)
 
         val productById = productService.getProductById(productIdMock)
 
@@ -106,6 +124,7 @@ internal class ProductServiceTest {
         val productEntityMock: ProductEntity = mock(ProductEntity::class.java)
 
         val productIdMock = UUID.randomUUID()
+        val userIdMock = UUID.randomUUID()
         val productNameMock = "product name"
         val productBrandMock = "brand"
         val productPriceMock = 10.0
@@ -117,8 +136,10 @@ internal class ProductServiceTest {
         `when`(registerProductVOMock.productName).thenReturn(productNameMock)
         `when`(registerProductVOMock.productBrand).thenReturn(productBrandMock)
         `when`(registerProductVOMock.productPrice).thenReturn(productPriceMock)
+        `when`(registerProductVOMock.userId).thenReturn(userIdMock)
 
         `when`(productEntityMock.productId).thenReturn(productIdMock)
+        `when`(productEntityMock.userId).thenReturn(userIdMock)
         `when`(productEntityMock.productName).thenReturn(productNameMock)
         `when`(productEntityMock.productBrand).thenReturn(productBrandMock)
         `when`(productEntityMock.productPrice).thenReturn(productPriceMock)
@@ -134,6 +155,7 @@ internal class ProductServiceTest {
         assertEquals(productPriceMock, registerProduct.productPrice)
         assertEquals(creationDateMock, registerProduct.creationDate)
         assertEquals(lastUpdateDateMock, registerProduct.lastUpdateDate)
+        assertEquals(userIdMock, registerProduct.userId)
 
         verify(productRepository).save(any(ProductEntity::class.java))
     }

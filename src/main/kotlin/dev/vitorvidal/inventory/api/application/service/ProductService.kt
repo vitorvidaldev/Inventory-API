@@ -27,7 +27,7 @@ class ProductService(val productRepository: ProductRepository) {
     fun getProducts(productName: String?, productBrand: String?, pageNumber: Int): Page<ProductVO> {
         val page: Pageable = PageRequest.of(pageNumber, 10, Sort.by("product_name"))
 
-        val productPage = productRepository.getFilter(productName, productBrand, page)
+        val productPage = productRepository.findByFilter(productName, productBrand, page)
 
         return productPage.map { productEntity ->
             ProductVO(
@@ -37,7 +37,8 @@ class ProductService(val productRepository: ProductRepository) {
                 productEntity.productPrice,
                 productEntity.creationDate,
                 productEntity.isActive,
-                productEntity.lastUpdateDate
+                productEntity.lastUpdateDate,
+                productEntity.userId
             )
         }
     }
@@ -55,7 +56,8 @@ class ProductService(val productRepository: ProductRepository) {
                 productEntity.productPrice,
                 productEntity.creationDate,
                 productEntity.isActive,
-                productEntity.lastUpdateDate
+                productEntity.lastUpdateDate,
+                productEntity.userId
             )
         }
 
@@ -66,7 +68,8 @@ class ProductService(val productRepository: ProductRepository) {
         val productEntity = ProductEntity(
             registerProductVO.productName,
             registerProductVO.productBrand,
-            registerProductVO.productPrice
+            registerProductVO.productPrice,
+            registerProductVO.userId
         )
 
         val createdProduct = productRepository.save(productEntity)
@@ -78,7 +81,8 @@ class ProductService(val productRepository: ProductRepository) {
             createdProduct.productPrice,
             createdProduct.creationDate,
             productEntity.isActive,
-            createdProduct.lastUpdateDate
+            createdProduct.lastUpdateDate,
+            createdProduct.userId
         )
     }
 

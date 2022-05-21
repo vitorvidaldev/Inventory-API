@@ -30,11 +30,13 @@ class ProductEntity() {
     @Column(name = "updated_at")
     var lastUpdateDate: LocalDateTime = LocalDateTime.now()
 
-    // TODO Add userId column, to identify who created the product
+    @Column(name = "created_by_user")
+    lateinit var userId: UUID
 
-    constructor(productName: String, productBrand: String, productPrice: Double) : this() {
+    constructor(productName: String, productBrand: String, productPrice: Double, userId: UUID) : this() {
         this.productName = productName
         this.productBrand = productBrand
         this.productPrice = productPrice
+        this.userId = userId
     }
 }

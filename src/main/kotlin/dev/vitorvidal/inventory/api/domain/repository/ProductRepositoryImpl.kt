@@ -13,7 +13,7 @@ import javax.persistence.criteria.Root
 
 @Repository
 class ProductRepositoryImpl(private val em: EntityManager) : ProductRepositoryCustom {
-    override fun getFilter(productName: String?, productBrand: String?, page: Pageable): Page<ProductEntity> {
+    override fun findByFilter(productName: String?, productBrand: String?, page: Pageable): Page<ProductEntity> {
         val builder: CriteriaBuilder = em.criteriaBuilder
         val query: CriteriaQuery<ProductEntity> = builder.createQuery(ProductEntity::class.java)
 

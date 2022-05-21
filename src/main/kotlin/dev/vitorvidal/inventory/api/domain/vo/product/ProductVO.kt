@@ -11,4 +11,5 @@ data class ProductVO(
     val creationDate: LocalDateTime,
     val isActive: Boolean,
     val lastUpdateDate: LocalDateTime,
+    val userId: UUID
 )
