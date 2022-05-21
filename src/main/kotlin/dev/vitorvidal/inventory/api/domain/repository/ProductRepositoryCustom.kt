@@ -6,5 +6,5 @@ import org.springframework.data.domain.Pageable
 
 interface ProductRepositoryCustom {
 
-    fun findByFilter(productName: String?, productBrand: String?, page: Pageable): Page<ProductEntity>
+    fun getFilter(productName: String?, productBrand: String?, page: Pageable): Page<ProductEntity>
 }

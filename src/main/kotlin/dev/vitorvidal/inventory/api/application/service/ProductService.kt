@@ -25,10 +25,9 @@ class ProductService(val productRepository: ProductRepository) {
     }
 
     fun getProducts(productName: String?, productBrand: String?, pageNumber: Int): Page<ProductVO> {
-        // TODO: filter by date
-        val page: Pageable = PageRequest.of(pageNumber, 3, Sort.by("product_name"))
+        val page: Pageable = PageRequest.of(pageNumber, 10, Sort.by("product_name"))
 
-        val productPage = productRepository.findByFilter(productName, productBrand, page)
+        val productPage = productRepository.getFilter(productName, productBrand, page)
 
         return productPage.map { productEntity ->
             ProductVO(

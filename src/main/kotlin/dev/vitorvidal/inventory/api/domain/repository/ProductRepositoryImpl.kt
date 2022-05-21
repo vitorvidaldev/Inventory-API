@@ -13,11 +13,11 @@ import javax.persistence.criteria.Root
 
 @Repository
 class ProductRepositoryImpl(private val em: EntityManager) : ProductRepositoryCustom {
-    override fun findByFilter(productName: String?, productBrand: String?, page: Pageable): Page<ProductEntity> {
+    override fun getFilter(productName: String?, productBrand: String?, page: Pageable): Page<ProductEntity> {
         val builder: CriteriaBuilder = em.criteriaBuilder
-        val criteriaQuery: CriteriaQuery<ProductEntity> = builder.createQuery(ProductEntity::class.java)
+        val query: CriteriaQuery<ProductEntity> = builder.createQuery(ProductEntity::class.java)
 
-        val product: Root<ProductEntity> = criteriaQuery.from(ProductEntity::class.java)
+        val product: Root<ProductEntity> = query.from(ProductEntity::class.java)
         val predicates: MutableList<Predicate> = ArrayList()
 
         if (productBrand != null) {
@@ -26,15 +26,26 @@ class ProductRepositoryImpl(private val em: EntityManager) : ProductRepositoryCu
         if (productName != null) {
             predicates.add(builder.like(product.get("productName"), "%$productName%"))
         }
-        criteriaQuery.where(*predicates.toTypedArray())
 
-        val countQuery = builder.createQuery(Long::class.java)
-        val productsRootCount: Root<ProductEntity> = countQuery.from(ProductEntity::class.java)
-        countQuery.select(builder.count(productsRootCount))
-        val count = em.createQuery(countQuery).singleResult
 
-        // TODO: fix pagination bug
-        val products: List<ProductEntity> = em.createQuery(criteriaQuery).resultList
-        return PageableExecutionUtils.getPage(products, page) { count }
+        val countQuery: CriteriaQuery<Long> = builder.createQuery(Long::class.java)
+        val entity_: Root<ProductEntity> = countQuery.from(query.resultType)
+        entity_.alias("ProductEntity")
+
+        countQuery.select(builder.count(entity_))
+        val restriction: Predicate? = query.restriction
+        if (restriction != null) {
+            countQuery.where(restriction)
+        }
+        val totalCount: Long = em.createQuery(countQuery).singleResult
+
+
+        val where = query.where(*predicates.toTypedArray())
+
+        val resultList = em.createQuery(where)
+            .setFirstResult(page.offset.toInt())
+            .setMaxResults(page.pageSize)
+            .resultList
+        return PageableExecutionUtils.getPage(resultList, page) { totalCount }
     }
 }
