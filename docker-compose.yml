@@ -14,8 +14,16 @@ services:
     networks:
       - postgres
 
+  api:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "postgres"
+
 volumes:
   postgresql_data:
+
 
 networks:
   postgres:
