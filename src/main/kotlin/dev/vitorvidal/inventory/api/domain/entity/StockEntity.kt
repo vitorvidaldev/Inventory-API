@@ -6,18 +6,28 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "stock")
-class StockEntity {
+class StockEntity() {
     @Id
     @Column(name = "stock_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    val stockId: UUID = UUID.randomUUID()
+    var stockId: UUID = UUID.randomUUID()
+
+    @Column(name = "stock")
+    var value: Int = 0
 
     @Column(name = "creation_date")
-    val creationDate: LocalDateTime = LocalDateTime.now()
+    lateinit var creationDate: LocalDateTime
 
     @Column(name = "last_update_date")
-    var lastUpdateDate: LocalDateTime = LocalDateTime.now()
+    lateinit var lastUpdateDate: LocalDateTime
 
-    @OneToOne
-    val product: ProductEntity? = null
+    @Column(name = "product_id")
+    lateinit var productId: UUID
+
+    constructor(stock: Int, productId: UUID) : this() {
+        this.value = stock
+        this.productId = productId
+        this.creationDate = LocalDateTime.now()
+        this.lastUpdateDate = LocalDateTime.now()
+    }
 }

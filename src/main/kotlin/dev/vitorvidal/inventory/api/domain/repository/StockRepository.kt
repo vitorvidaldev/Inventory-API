@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface StockRepository : CrudRepository<StockEntity, UUID>
+interface StockRepository : CrudRepository<StockEntity, UUID> {
+    fun findByProductId(productId: UUID): Optional<StockEntity>
+}

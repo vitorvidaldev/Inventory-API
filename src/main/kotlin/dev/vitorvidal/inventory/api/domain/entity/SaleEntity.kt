@@ -6,7 +6,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "sale")
-class SaleEntity {
+class SaleEntity() {
     @Id
     @Column(name = "sale_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,7 +15,14 @@ class SaleEntity {
     @Column(name = "creation_date")
     val creationDate: LocalDateTime = LocalDateTime.now()
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    val product: ProductEntity? = null
+    @Column(name = "product_id")
+    lateinit var productId: UUID
+
+    @Column(name = "buyer_id")
+    lateinit var buyerId: UUID
+
+    constructor(productId: UUID, buyerId: UUID) : this() {
+        this.productId = productId
+        this.buyerId = buyerId
+    }
 }

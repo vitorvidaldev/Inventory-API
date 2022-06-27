@@ -4,5 +4,6 @@ import java.util.*
 
 data class SaleVO(
     val saleId: UUID,
-    val productId: UUID
+    val productId: UUID,
+    val buyerId: UUID
 )

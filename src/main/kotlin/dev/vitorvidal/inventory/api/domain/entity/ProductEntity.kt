@@ -18,24 +18,25 @@ class ProductEntity() {
     @Column(name = "product_brand")
     var productBrand: String = ""
 
-    @Column(name = "creation_date")
+    @Column(name = "product_price", columnDefinition = "decimal NOT NULL")
+    var productPrice: Double = 0.0
+
+    @Column(name = "created_at")
     val creationDate: LocalDateTime = LocalDateTime.now()
 
-    @Column(name = "last_update_date")
+    @Column(name = "is_active")
+    val isActive: Boolean = true
+
+    @Column(name = "updated_at")
     var lastUpdateDate: LocalDateTime = LocalDateTime.now()
 
-    @Column
-    @OneToMany
-    @JoinColumn
-    val sales: List<SaleEntity>? = null
+    @Column(name = "created_by_user")
+    lateinit var userId: UUID
 
-    @OneToOne
-    @JoinColumn(name = "stock_id")
-    val stock: StockEntity? = null
-
-    constructor(productName: String, productBrand: String) : this() {
+    constructor(productName: String, productBrand: String, productPrice: Double, userId: UUID) : this() {
         this.productName = productName
         this.productBrand = productBrand
-        this.lastUpdateDate = LocalDateTime.now()
+        this.productPrice = productPrice
+        this.userId = userId
     }
 }

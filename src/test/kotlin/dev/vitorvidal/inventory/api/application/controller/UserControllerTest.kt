@@ -1,6 +1,7 @@
 package dev.vitorvidal.inventory.api.application.controller
 
 import dev.vitorvidal.inventory.api.application.service.UserService
+import dev.vitorvidal.inventory.api.domain.vo.user.ChangePasswordVO
 import dev.vitorvidal.inventory.api.domain.vo.user.UserLoginVO
 import dev.vitorvidal.inventory.api.domain.vo.user.UserSignupVO
 import dev.vitorvidal.inventory.api.domain.vo.user.UserVO
@@ -11,6 +12,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.*
 
@@ -72,30 +74,45 @@ internal class UserControllerTest {
 
     @Test
     fun shouldChangeUserPasswordCorrectly() {
-        val userIdMock: UUID = UUID.randomUUID()
         val userVOMock: UserVO = mock(UserVO::class.java)
+        val changePasswordVOMock: ChangePasswordVO = mock(ChangePasswordVO::class.java)
 
-        `when`(userService.changeUserPassword(userIdMock)).thenReturn(userVOMock)
+        `when`(userService.changeUserPassword(changePasswordVOMock)).thenReturn(userVOMock)
 
-        val response = userController.changeUserPassword(userIdMock)
+        val response = userController.changeUserPassword(changePasswordVOMock)
 
         assertNotNull(response)
         assertEquals(HttpStatus.OK, response.statusCode)
         assertEquals(userVOMock, response.body)
 
-        verify(userService).changeUserPassword(userIdMock)
+        verify(userService).changeUserPassword(changePasswordVOMock)
     }
 
     @Test
     fun shouldDeleteUserByIdCorrectly() {
         val userIdMock: UUID = UUID.randomUUID()
 
-        doNothing().`when`(userService).deleteUserById(userIdMock)
+        `when`(userService.deleteUserById(userIdMock)).thenReturn(ResponseEntity.noContent().build())
 
         val response = userController.deleteUserById(userIdMock)
 
         assertNotNull(response)
         assertEquals(HttpStatus.NO_CONTENT, response.statusCode)
+        assertNull(response.body)
+
+        verify(userService).deleteUserById(userIdMock)
+    }
+
+    @Test
+    fun shouldDeleteUserByIdMultipleTimesCorrectly() {
+        val userIdMock: UUID = UUID.randomUUID()
+
+        `when`(userService.deleteUserById(userIdMock)).thenReturn(ResponseEntity.notFound().build())
+
+        val response = userController.deleteUserById(userIdMock)
+
+        assertNotNull(response)
+        assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
         assertNull(response.body)
 
         verify(userService).deleteUserById(userIdMock)
