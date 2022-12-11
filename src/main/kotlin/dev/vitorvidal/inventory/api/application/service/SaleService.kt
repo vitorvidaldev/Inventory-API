@@ -1,10 +1,11 @@
 package dev.vitorvidal.inventory.api.application.service
 
-import dev.vitorvidal.inventory.api.domain.entity.SaleEntity
+import dev.vitorvidal.inventory.api.domain.entity.Sale
 import dev.vitorvidal.inventory.api.domain.repository.SaleRepository
 import dev.vitorvidal.inventory.api.domain.vo.sale.SaleVO
 import dev.vitorvidal.inventory.api.domain.vo.sale.SellVO
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
@@ -26,14 +27,14 @@ class SaleService(val saleRepository: SaleRepository) {
     }
 
     fun getUserPurchaseHistory(userId: UUID): Page<SaleVO> {
-        val buyerPurchaseData = saleRepository.findByBuyerId(userId)
+        val buyerPurchaseData = saleRepository.findByBuyerId(userId, Pageable.ofSize(10))
         return buyerPurchaseData.map { data ->
             SaleVO(data.saleId, data.productId, data.buyerId)
         }
     }
 
     fun sell(sellVO: SellVO): SaleVO {
-        val saleEntity = saleRepository.save(SaleEntity(sellVO.userId, sellVO.productId))
-        return SaleVO(saleEntity.saleId, saleEntity.productId, saleEntity.buyerId)
+        val sale = saleRepository.save(Sale(sellVO.userId, sellVO.productId))
+        return SaleVO(sale.saleId, sale.productId, sale.buyerId)
     }
 }

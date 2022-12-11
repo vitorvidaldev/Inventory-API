@@ -1,6 +1,6 @@
 package dev.vitorvidal.inventory.api.application.service
 
-import dev.vitorvidal.inventory.api.domain.entity.ProductEntity
+import dev.vitorvidal.inventory.api.domain.entity.Product
 import dev.vitorvidal.inventory.api.domain.repository.ProductRepository
 import dev.vitorvidal.inventory.api.domain.vo.product.ProductVO
 import dev.vitorvidal.inventory.api.domain.vo.product.RegisterProductVO
@@ -65,14 +65,14 @@ class ProductService(val productRepository: ProductRepository) {
     }
 
     fun registerProduct(registerProductVO: RegisterProductVO): ProductVO {
-        val productEntity = ProductEntity(
+        val product = Product(
             registerProductVO.productName,
             registerProductVO.productBrand,
             registerProductVO.productPrice,
             registerProductVO.userId
         )
 
-        val createdProduct = productRepository.save(productEntity)
+        val createdProduct = productRepository.save(product)
 
         return ProductVO(
             createdProduct.productId,
@@ -80,7 +80,7 @@ class ProductService(val productRepository: ProductRepository) {
             createdProduct.productBrand,
             createdProduct.productPrice,
             createdProduct.creationDate,
-            productEntity.isActive,
+            product.isActive,
             createdProduct.lastUpdateDate,
             createdProduct.userId
         )

@@ -1,12 +1,12 @@
 package dev.vitorvidal.inventory.api.domain.entity
 
+import jakarta.persistence.*
 import java.time.LocalDateTime
 import java.util.*
-import javax.persistence.*
 
 @Entity
 @Table(name = "stock")
-class StockEntity() {
+class Stock() {
     @Id
     @Column(name = "stock_id")
     @GeneratedValue(strategy = GenerationType.AUTO)

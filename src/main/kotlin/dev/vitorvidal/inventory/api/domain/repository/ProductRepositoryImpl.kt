@@ -1,23 +1,23 @@
 package dev.vitorvidal.inventory.api.domain.repository
 
-import dev.vitorvidal.inventory.api.domain.entity.ProductEntity
+import dev.vitorvidal.inventory.api.domain.entity.Product
+import jakarta.persistence.EntityManager
+import jakarta.persistence.criteria.CriteriaBuilder
+import jakarta.persistence.criteria.CriteriaQuery
+import jakarta.persistence.criteria.Predicate
+import jakarta.persistence.criteria.Root
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.support.PageableExecutionUtils
 import org.springframework.stereotype.Repository
-import javax.persistence.EntityManager
-import javax.persistence.criteria.CriteriaBuilder
-import javax.persistence.criteria.CriteriaQuery
-import javax.persistence.criteria.Predicate
-import javax.persistence.criteria.Root
 
 @Repository
 class ProductRepositoryImpl(private val em: EntityManager) : ProductRepositoryCustom {
-    override fun findByFilter(productName: String?, productBrand: String?, page: Pageable): Page<ProductEntity> {
+    override fun findByFilter(productName: String?, productBrand: String?, page: Pageable): Page<Product> {
         val builder: CriteriaBuilder = em.criteriaBuilder
-        val query: CriteriaQuery<ProductEntity> = builder.createQuery(ProductEntity::class.java)
+        val query: CriteriaQuery<Product> = builder.createQuery(Product::class.java)
 
-        val product: Root<ProductEntity> = query.from(ProductEntity::class.java)
+        val product: Root<Product> = query.from(Product::class.java)
         val predicates: MutableList<Predicate> = ArrayList()
 
         if (productBrand != null) {
@@ -29,7 +29,7 @@ class ProductRepositoryImpl(private val em: EntityManager) : ProductRepositoryCu
 
 
         val countQuery: CriteriaQuery<Long> = builder.createQuery(Long::class.java)
-        val entity_: Root<ProductEntity> = countQuery.from(query.resultType)
+        val entity_: Root<Product> = countQuery.from(query.resultType)
         entity_.alias("ProductEntity")
 
         countQuery.select(builder.count(entity_))

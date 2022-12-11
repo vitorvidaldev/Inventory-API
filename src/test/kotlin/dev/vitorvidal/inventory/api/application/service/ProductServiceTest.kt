@@ -1,6 +1,6 @@
 package dev.vitorvidal.inventory.api.application.service
 
-import dev.vitorvidal.inventory.api.domain.entity.ProductEntity
+import dev.vitorvidal.inventory.api.domain.entity.Product
 import dev.vitorvidal.inventory.api.domain.repository.ProductRepository
 import dev.vitorvidal.inventory.api.domain.vo.product.RegisterProductVO
 import org.junit.jupiter.api.Assertions.*
@@ -28,7 +28,7 @@ internal class ProductServiceTest {
 
     @Test
     fun shouldGetProductListCorrectly() {
-        val productEntityMock: ProductEntity = mock(ProductEntity::class.java)
+        val productMock: Product = mock(Product::class.java)
 
         val productIdMock = UUID.randomUUID()
         val userIdMock = UUID.randomUUID()
@@ -38,14 +38,14 @@ internal class ProductServiceTest {
         val creationDateMock = LocalDateTime.now()
         val lastUpdateDateMock = LocalDateTime.now()
 
-        `when`(productRepository.findAll()).thenReturn(listOf(productEntityMock))
-        `when`(productEntityMock.productId).thenReturn(productIdMock)
-        `when`(productEntityMock.productName).thenReturn(productNameMock)
-        `when`(productEntityMock.productBrand).thenReturn(productBrandMock)
-        `when`(productEntityMock.productPrice).thenReturn(productPriceMock)
-        `when`(productEntityMock.creationDate).thenReturn(creationDateMock)
-        `when`(productEntityMock.lastUpdateDate).thenReturn(lastUpdateDateMock)
-        `when`(productEntityMock.userId).thenReturn(userIdMock)
+        `when`(productRepository.findAll()).thenReturn(listOf(productMock))
+        `when`(productMock.productId).thenReturn(productIdMock)
+        `when`(productMock.productName).thenReturn(productNameMock)
+        `when`(productMock.productBrand).thenReturn(productBrandMock)
+        `when`(productMock.productPrice).thenReturn(productPriceMock)
+        `when`(productMock.creationDate).thenReturn(creationDateMock)
+        `when`(productMock.lastUpdateDate).thenReturn(lastUpdateDateMock)
+        `when`(productMock.userId).thenReturn(userIdMock)
 
         `when`(
             productRepository.findByFilter(
@@ -53,7 +53,7 @@ internal class ProductServiceTest {
                 eq(productBrandMock),
                 any()
             )
-        ).thenReturn(PageImpl(listOf(productEntityMock)))
+        ).thenReturn(PageImpl(listOf(productMock)))
 
         val productList = productService.getProducts(productNameMock, productBrandMock, 0)
 
@@ -68,7 +68,7 @@ internal class ProductServiceTest {
 
     @Test
     fun shouldGetProductProductByIdCorrectly() {
-        val productEntityMock = mock(ProductEntity::class.java)
+        val productMock = mock(Product::class.java)
 
         val productIdMock = UUID.randomUUID()
         val userIdMock = UUID.randomUUID()
@@ -78,15 +78,15 @@ internal class ProductServiceTest {
         val creationDateMock = LocalDateTime.now()
         val lastUpdateDateMock = LocalDateTime.now()
 
-        `when`(productRepository.findById(productIdMock)).thenReturn(Optional.of(productEntityMock))
+        `when`(productRepository.findById(productIdMock)).thenReturn(Optional.of(productMock))
 
-        `when`(productEntityMock.productId).thenReturn(productIdMock)
-        `when`(productEntityMock.productName).thenReturn(productNameMock)
-        `when`(productEntityMock.productBrand).thenReturn(productBrandMock)
-        `when`(productEntityMock.productPrice).thenReturn(productPriceMock)
-        `when`(productEntityMock.creationDate).thenReturn(creationDateMock)
-        `when`(productEntityMock.lastUpdateDate).thenReturn(lastUpdateDateMock)
-        `when`(productEntityMock.userId).thenReturn(userIdMock)
+        `when`(productMock.productId).thenReturn(productIdMock)
+        `when`(productMock.productName).thenReturn(productNameMock)
+        `when`(productMock.productBrand).thenReturn(productBrandMock)
+        `when`(productMock.productPrice).thenReturn(productPriceMock)
+        `when`(productMock.creationDate).thenReturn(creationDateMock)
+        `when`(productMock.lastUpdateDate).thenReturn(lastUpdateDateMock)
+        `when`(productMock.userId).thenReturn(userIdMock)
 
         val productById = productService.getProductById(productIdMock)
 
@@ -112,7 +112,7 @@ internal class ProductServiceTest {
         }
 
         assertNotNull(exception)
-        assertEquals(HttpStatus.NOT_FOUND, exception.status)
+        assertEquals(HttpStatus.NOT_FOUND, exception.statusCode)
         assertEquals("Product not found", exception.reason)
 
         verify(productRepository).findById(productIdMock)
@@ -121,7 +121,7 @@ internal class ProductServiceTest {
     @Test
     fun shouldRegisterProductCorrectly() {
         val registerProductVOMock: RegisterProductVO = mock(RegisterProductVO::class.java)
-        val productEntityMock: ProductEntity = mock(ProductEntity::class.java)
+        val productMock: Product = mock(Product::class.java)
 
         val productIdMock = UUID.randomUUID()
         val userIdMock = UUID.randomUUID()
@@ -131,20 +131,20 @@ internal class ProductServiceTest {
         val creationDateMock = LocalDateTime.now()
         val lastUpdateDateMock = LocalDateTime.now()
 
-        `when`(productRepository.save(any(ProductEntity::class.java))).thenReturn(productEntityMock)
+        `when`(productRepository.save(any(Product::class.java))).thenReturn(productMock)
 
         `when`(registerProductVOMock.productName).thenReturn(productNameMock)
         `when`(registerProductVOMock.productBrand).thenReturn(productBrandMock)
         `when`(registerProductVOMock.productPrice).thenReturn(productPriceMock)
         `when`(registerProductVOMock.userId).thenReturn(userIdMock)
 
-        `when`(productEntityMock.productId).thenReturn(productIdMock)
-        `when`(productEntityMock.userId).thenReturn(userIdMock)
-        `when`(productEntityMock.productName).thenReturn(productNameMock)
-        `when`(productEntityMock.productBrand).thenReturn(productBrandMock)
-        `when`(productEntityMock.productPrice).thenReturn(productPriceMock)
-        `when`(productEntityMock.creationDate).thenReturn(creationDateMock)
-        `when`(productEntityMock.lastUpdateDate).thenReturn(lastUpdateDateMock)
+        `when`(productMock.productId).thenReturn(productIdMock)
+        `when`(productMock.userId).thenReturn(userIdMock)
+        `when`(productMock.productName).thenReturn(productNameMock)
+        `when`(productMock.productBrand).thenReturn(productBrandMock)
+        `when`(productMock.productPrice).thenReturn(productPriceMock)
+        `when`(productMock.creationDate).thenReturn(creationDateMock)
+        `when`(productMock.lastUpdateDate).thenReturn(lastUpdateDateMock)
 
         val registerProduct = productService.registerProduct(registerProductVOMock)
 
@@ -157,7 +157,7 @@ internal class ProductServiceTest {
         assertEquals(lastUpdateDateMock, registerProduct.lastUpdateDate)
         assertEquals(userIdMock, registerProduct.userId)
 
-        verify(productRepository).save(any(ProductEntity::class.java))
+        verify(productRepository).save(any(Product::class.java))
     }
 
     @Test

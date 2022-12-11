@@ -1,9 +1,9 @@
 package dev.vitorvidal.inventory.api.domain.vo.user
 
 import io.swagger.v3.oas.annotations.media.Schema
+import jakarta.persistence.Column
 import java.time.LocalDateTime
 import java.util.*
-import javax.persistence.Column
 
 @Schema(name = "User", description = "User data")
 data class UserVO(

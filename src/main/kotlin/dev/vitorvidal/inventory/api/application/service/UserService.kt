@@ -1,6 +1,6 @@
 package dev.vitorvidal.inventory.api.application.service
 
-import dev.vitorvidal.inventory.api.domain.entity.UserEntity
+import dev.vitorvidal.inventory.api.domain.entity.User
 import dev.vitorvidal.inventory.api.domain.repository.UserRepository
 import dev.vitorvidal.inventory.api.domain.vo.user.ChangePasswordVO
 import dev.vitorvidal.inventory.api.domain.vo.user.UserLoginVO
@@ -40,8 +40,8 @@ class UserService(val userRepository: UserRepository) {
         val optionalUser = userRepository.findUserEntityByEmail(userSignupVO.email)
 
         if (optionalUser.isEmpty) {
-            val userEntity = UserEntity(userSignupVO.email, userSignupVO.password)
-            val createdUser = userRepository.save(userEntity)
+            val user = User(userSignupVO.email, userSignupVO.password)
+            val createdUser = userRepository.save(user)
 
             return UserVO(createdUser.userId, createdUser.email, createdUser.creationDate)
         }

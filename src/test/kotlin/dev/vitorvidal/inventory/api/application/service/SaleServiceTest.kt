@@ -1,6 +1,6 @@
 package dev.vitorvidal.inventory.api.application.service
 
-import dev.vitorvidal.inventory.api.domain.entity.SaleEntity
+import dev.vitorvidal.inventory.api.domain.entity.Sale
 import dev.vitorvidal.inventory.api.domain.repository.SaleRepository
 import dev.vitorvidal.inventory.api.domain.vo.sale.SellVO
 import org.junit.jupiter.api.Assertions.*
@@ -13,6 +13,7 @@ import org.mockito.Mockito.`when`
 import org.mockito.kotlin.any
 import org.mockito.kotlin.verify
 import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.web.server.ResponseStatusException
@@ -31,13 +32,13 @@ internal class SaleServiceTest {
         val saleIdMock = UUID.randomUUID()
         val userIdMock = UUID.randomUUID()
         val productIdMock = UUID.randomUUID()
-        val saleEntityMock = mock(SaleEntity::class.java)
+        val saleMock = mock(Sale::class.java)
 
-        `when`(saleRepository.findById(saleIdMock)).thenReturn(Optional.of(saleEntityMock))
+        `when`(saleRepository.findById(saleIdMock)).thenReturn(Optional.of(saleMock))
 
-        `when`(saleEntityMock.saleId).thenReturn(saleIdMock)
-        `when`(saleEntityMock.buyerId).thenReturn(userIdMock)
-        `when`(saleEntityMock.productId).thenReturn(productIdMock)
+        `when`(saleMock.saleId).thenReturn(saleIdMock)
+        `when`(saleMock.buyerId).thenReturn(userIdMock)
+        `when`(saleMock.productId).thenReturn(productIdMock)
 
         val saleVO = saleService.getSaleData(saleIdMock)
 
@@ -60,7 +61,7 @@ internal class SaleServiceTest {
         }
 
         assertNotNull(exception)
-        assertEquals(HttpStatus.NOT_FOUND, exception.status)
+        assertEquals(HttpStatus.NOT_FOUND, exception.statusCode)
         assertEquals("Error getting sale data", exception.reason)
 
         verify(saleRepository).findById(saleIdMock)
@@ -71,13 +72,13 @@ internal class SaleServiceTest {
         val userIdMock = UUID.randomUUID()
         val saleIdMock = UUID.randomUUID()
         val productIdMock = UUID.randomUUID()
-        val saleEntityMock = mock(SaleEntity::class.java)
+        val saleMock = mock(Sale::class.java)
 
-        `when`(saleRepository.findByBuyerId(userIdMock)).thenReturn(PageImpl(listOf(saleEntityMock)))
+        `when`(saleRepository.findByBuyerId(userIdMock, Pageable.ofSize(10))).thenReturn(PageImpl(listOf(saleMock)))
 
-        `when`(saleEntityMock.saleId).thenReturn(saleIdMock)
-        `when`(saleEntityMock.buyerId).thenReturn(userIdMock)
-        `when`(saleEntityMock.productId).thenReturn(productIdMock)
+        `when`(saleMock.saleId).thenReturn(saleIdMock)
+        `when`(saleMock.buyerId).thenReturn(userIdMock)
+        `when`(saleMock.productId).thenReturn(productIdMock)
 
         val purchaseHistory = saleService.getUserPurchaseHistory(userIdMock)
 
@@ -86,7 +87,7 @@ internal class SaleServiceTest {
         assertEquals(userIdMock, purchaseHistory.content[0].buyerId)
         assertEquals(productIdMock, purchaseHistory.content[0].productId)
 
-        verify(saleRepository).findByBuyerId(userIdMock)
+        verify(saleRepository).findByBuyerId(userIdMock, Pageable.ofSize(10))
     }
 
     @Test
@@ -94,17 +95,17 @@ internal class SaleServiceTest {
         val userIdMock = UUID.randomUUID()
         val saleIdMock = UUID.randomUUID()
         val productIdMock = UUID.randomUUID()
-        val saleEntityMock = mock(SaleEntity::class.java)
+        val saleMock = mock(Sale::class.java)
         val sellVOMock = mock(SellVO::class.java)
 
-        `when`(saleEntityMock.saleId).thenReturn(saleIdMock)
-        `when`(saleEntityMock.buyerId).thenReturn(userIdMock)
-        `when`(saleEntityMock.productId).thenReturn(productIdMock)
+        `when`(saleMock.saleId).thenReturn(saleIdMock)
+        `when`(saleMock.buyerId).thenReturn(userIdMock)
+        `when`(saleMock.productId).thenReturn(productIdMock)
 
         `when`(sellVOMock.productId).thenReturn(productIdMock)
         `when`(sellVOMock.userId).thenReturn(userIdMock)
 
-        `when`(saleRepository.save(any())).thenReturn(saleEntityMock)
+        `when`(saleRepository.save(any())).thenReturn(saleMock)
 
         val saleVO = saleService.sell(sellVOMock)
 

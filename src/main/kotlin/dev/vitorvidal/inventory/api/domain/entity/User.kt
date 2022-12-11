@@ -1,12 +1,12 @@
 package dev.vitorvidal.inventory.api.domain.entity
 
+import jakarta.persistence.*
 import java.time.LocalDateTime
 import java.util.*
-import javax.persistence.*
 
 @Entity
 @Table(name = "\"user\"")
-class UserEntity() {
+class User() {
     constructor(email: String, password: String) : this() {
         this.email = email
         this.password = password

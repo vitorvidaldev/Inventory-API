@@ -1,6 +1,6 @@
 package dev.vitorvidal.inventory.api.application.service
 
-import dev.vitorvidal.inventory.api.domain.entity.StockEntity
+import dev.vitorvidal.inventory.api.domain.entity.Stock
 import dev.vitorvidal.inventory.api.domain.repository.StockRepository
 import dev.vitorvidal.inventory.api.domain.vo.stock.SetStockVO
 import org.junit.jupiter.api.Assertions.*
@@ -26,14 +26,14 @@ internal class StockServiceTest {
     @Test
     fun shouldGetProductStockCorrectly() {
         val productIdMock: UUID = UUID.randomUUID()
-        val stockEntityMock = mock(StockEntity::class.java)
+        val stockMock = mock(Stock::class.java)
         val stockValue = 10
         val stockId = UUID.randomUUID()
 
-        `when`(stockRepository.findByProductId(productIdMock)).thenReturn(Optional.of(stockEntityMock))
-        `when`(stockEntityMock.stockId).thenReturn(stockId)
-        `when`(stockEntityMock.productId).thenReturn(productIdMock)
-        `when`(stockEntityMock.value).thenReturn(stockValue)
+        `when`(stockRepository.findByProductId(productIdMock)).thenReturn(Optional.of(stockMock))
+        `when`(stockMock.stockId).thenReturn(stockId)
+        `when`(stockMock.productId).thenReturn(productIdMock)
+        `when`(stockMock.value).thenReturn(stockValue)
 
         val stockVO = stockService.getProductStock(productIdMock)
 
@@ -56,7 +56,7 @@ internal class StockServiceTest {
         }
 
         assertNotNull(exception)
-        assertEquals(HttpStatus.NOT_FOUND, exception.status)
+        assertEquals(HttpStatus.NOT_FOUND, exception.statusCode)
         assertEquals("Stock not found for product $productIdMock", exception.reason)
 
 
@@ -69,17 +69,17 @@ internal class StockServiceTest {
         val productIdMock = UUID.randomUUID()
         val stockIdMock = UUID.randomUUID()
         val stockValueMock = 10
-        val stockEntityMock = mock(StockEntity::class.java)
+        val stockMock = mock(Stock::class.java)
 
         `when`(setStockVOMock.value).thenReturn(stockValueMock)
         `when`(setStockVOMock.stockId).thenReturn(stockIdMock)
         `when`(setStockVOMock.productId).thenReturn(productIdMock)
 
-        `when`(stockRepository.findById(stockIdMock)).thenReturn(Optional.of(stockEntityMock))
+        `when`(stockRepository.findById(stockIdMock)).thenReturn(Optional.of(stockMock))
 
-        `when`(stockEntityMock.value).thenReturn(stockValueMock)
-        `when`(stockEntityMock.stockId).thenReturn(stockIdMock)
-        `when`(stockEntityMock.productId).thenReturn(productIdMock)
+        `when`(stockMock.value).thenReturn(stockValueMock)
+        `when`(stockMock.stockId).thenReturn(stockIdMock)
+        `when`(stockMock.productId).thenReturn(productIdMock)
 
         val stockVO = stockService.setProductStock(setStockVOMock)
 
@@ -97,16 +97,16 @@ internal class StockServiceTest {
         val productIdMock = UUID.randomUUID()
         val stockIdMock = UUID.randomUUID()
         val stockValueMock = 10
-        val stockEntityMock = mock(StockEntity::class.java)
+        val stockMock = mock(Stock::class.java)
 
         `when`(setStockVOMock.value).thenReturn(stockValueMock)
         `when`(setStockVOMock.productId).thenReturn(productIdMock)
 
-        `when`(stockRepository.save(any(StockEntity::class.java))).thenReturn(stockEntityMock)
+        `when`(stockRepository.save(any(Stock::class.java))).thenReturn(stockMock)
 
-        `when`(stockEntityMock.value).thenReturn(stockValueMock)
-        `when`(stockEntityMock.stockId).thenReturn(stockIdMock)
-        `when`(stockEntityMock.productId).thenReturn(productIdMock)
+        `when`(stockMock.value).thenReturn(stockValueMock)
+        `when`(stockMock.stockId).thenReturn(stockIdMock)
+        `when`(stockMock.productId).thenReturn(productIdMock)
 
         val stockVO = stockService.setProductStock(setStockVOMock)
 
