@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 import java.util.*
 
 @Entity
-@Table(name = "\"user\"")
+@Table(name = "\"user\"") // the quotes are used to avoid a postgres conflict
 class User() {
     constructor(email: String, password: String) : this() {
         this.email = email
@@ -28,4 +28,7 @@ class User() {
 
     @Column(name = "last_update_date")
     var lastUpdateDate: LocalDateTime = LocalDateTime.now()
+
+    @OneToMany(mappedBy = "user")
+    lateinit var products: List<Product>
 }

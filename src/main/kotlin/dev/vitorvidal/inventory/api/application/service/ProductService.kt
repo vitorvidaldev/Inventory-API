@@ -2,6 +2,7 @@ package dev.vitorvidal.inventory.api.application.service
 
 import dev.vitorvidal.inventory.api.domain.entity.Product
 import dev.vitorvidal.inventory.api.domain.repository.ProductRepository
+import dev.vitorvidal.inventory.api.domain.repository.UserRepository
 import dev.vitorvidal.inventory.api.domain.vo.product.ProductVO
 import dev.vitorvidal.inventory.api.domain.vo.product.RegisterProductVO
 import lombok.extern.slf4j.Slf4j
@@ -19,7 +20,7 @@ import java.util.*
 
 @Slf4j
 @Service
-class ProductService(val productRepository: ProductRepository) {
+class ProductService(val productRepository: ProductRepository, val userRepository: UserRepository) {
     companion object {
         private val log: Logger = LoggerFactory.getLogger(this::class.java)
     }
@@ -38,7 +39,7 @@ class ProductService(val productRepository: ProductRepository) {
                 productEntity.creationDate,
                 productEntity.isActive,
                 productEntity.lastUpdateDate,
-                productEntity.userId
+                productEntity.user.userId
             )
         }
     }
@@ -57,7 +58,7 @@ class ProductService(val productRepository: ProductRepository) {
                 productEntity.creationDate,
                 productEntity.isActive,
                 productEntity.lastUpdateDate,
-                productEntity.userId
+                productEntity.user.userId
             )
         }
 
@@ -69,7 +70,7 @@ class ProductService(val productRepository: ProductRepository) {
             registerProductVO.productName,
             registerProductVO.productBrand,
             registerProductVO.productPrice,
-            registerProductVO.userId
+            userRepository.findById(registerProductVO.userId).get()
         )
 
         val createdProduct = productRepository.save(product)
@@ -82,7 +83,7 @@ class ProductService(val productRepository: ProductRepository) {
             createdProduct.creationDate,
             product.isActive,
             createdProduct.lastUpdateDate,
-            createdProduct.userId
+            createdProduct.user.userId
         )
     }
 

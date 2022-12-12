@@ -3,6 +3,7 @@ version: '3.9'
 services:
   postgres:
     image: postgres:14.2-alpine3.15
+    restart: always
     ports:
       - "5432:5432"
     environment:
@@ -13,17 +14,19 @@ services:
       - postgresql_data:/var/lib/postgresql/data
     networks:
       - postgres
-#
-#  api:
-#    build: .
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - "postgres"
+
+  dbeaver:
+    image: dbeaver/cloudbeaver:22.2.5
+    ports:
+      - "8081:8978"
+    volumes:
+      - workspace:/opt/cloudbeaver/workspace
+    networks:
+      - postgres
 
 volumes:
   postgresql_data:
-
+  workspace:
 
 networks:
   postgres:

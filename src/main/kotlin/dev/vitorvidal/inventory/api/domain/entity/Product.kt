@@ -7,6 +7,13 @@ import java.util.*
 @Entity
 @Table(name = "product")
 class Product() {
+    constructor(productName: String, productBrand: String, productPrice: Double, user: User) : this() {
+        this.productName = productName
+        this.productBrand = productBrand
+        this.productPrice = productPrice
+        this.user = user
+    }
+
     @Id
     @Column(name = "product_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,13 +37,7 @@ class Product() {
     @Column(name = "updated_at")
     var lastUpdateDate: LocalDateTime = LocalDateTime.now()
 
-    @Column(name = "created_by_user")
-    lateinit var userId: UUID
-
-    constructor(productName: String, productBrand: String, productPrice: Double, userId: UUID) : this() {
-        this.productName = productName
-        this.productBrand = productBrand
-        this.productPrice = productPrice
-        this.userId = userId
-    }
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    lateinit var user: User
 }
