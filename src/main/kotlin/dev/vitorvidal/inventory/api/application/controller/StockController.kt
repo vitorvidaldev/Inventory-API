@@ -1,6 +1,6 @@
 package dev.vitorvidal.inventory.api.application.controller
 
-import dev.vitorvidal.inventory.api.application.service.StockService
+import dev.vitorvidal.inventory.api.application.service.impl.StockServiceImpl
 import dev.vitorvidal.inventory.api.domain.vo.stock.SetStockVO
 import dev.vitorvidal.inventory.api.domain.vo.stock.StockVO
 import io.swagger.v3.oas.annotations.Operation
@@ -13,7 +13,7 @@ import java.util.*
 
 @RestController
 @RequestMapping("/rest/v1/stocks")
-class StockController(val stockService: StockService) {
+class StockController(val stockServiceImpl: StockServiceImpl) {
 
     @Operation(summary = "Get product stock by id")
     @ApiResponse(
@@ -22,7 +22,7 @@ class StockController(val stockService: StockService) {
     )
     @GetMapping("/{productId}")
     fun getCurrentProductStock(@PathVariable(name = "productId") productId: UUID): ResponseEntity<StockVO> {
-        val stockVO: StockVO = stockService.getProductStock(productId)
+        val stockVO: StockVO = stockServiceImpl.getProductStock(productId)
         return ResponseEntity.ok().body(stockVO)
     }
 
@@ -33,7 +33,7 @@ class StockController(val stockService: StockService) {
     )
     @PostMapping
     fun updateProductStock(@RequestBody @Valid setStockVO: SetStockVO): ResponseEntity<StockVO> {
-        val stockVO: StockVO = stockService.setProductStock(setStockVO)
+        val stockVO: StockVO = stockServiceImpl.setProductStock(setStockVO)
         return ResponseEntity.status(HttpStatus.CREATED).body(stockVO)
     }
 }

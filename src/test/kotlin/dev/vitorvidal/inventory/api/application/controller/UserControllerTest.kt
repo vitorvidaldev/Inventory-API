@@ -1,6 +1,6 @@
 package dev.vitorvidal.inventory.api.application.controller
 
-import dev.vitorvidal.inventory.api.application.service.UserService
+import dev.vitorvidal.inventory.api.application.service.impl.UserServiceImpl
 import dev.vitorvidal.inventory.api.domain.vo.user.ChangePasswordVO
 import dev.vitorvidal.inventory.api.domain.vo.user.UserLoginVO
 import dev.vitorvidal.inventory.api.domain.vo.user.UserSignupVO
@@ -22,14 +22,14 @@ internal class UserControllerTest {
     lateinit var userController: UserController
 
     @Mock
-    lateinit var userService: UserService
+    lateinit var userServiceImpl: UserServiceImpl
 
     @Test
     fun shouldGetUserByIdCorrectly() {
         val userIdMock: UUID = UUID.randomUUID()
         val userVOMock: UserVO = mock(UserVO::class.java)
 
-        `when`(userService.getUserById(userIdMock)).thenReturn(userVOMock)
+        `when`(userServiceImpl.getUserById(userIdMock)).thenReturn(userVOMock)
 
         val response = userController.getUserById(userIdMock)
 
@@ -37,7 +37,7 @@ internal class UserControllerTest {
         assertEquals(HttpStatus.OK, response.statusCode)
         assertEquals(userVOMock, response.body)
 
-        verify(userService).getUserById(userIdMock)
+        verify(userServiceImpl).getUserById(userIdMock)
     }
 
     @Test
@@ -45,7 +45,7 @@ internal class UserControllerTest {
         val userSignupVOMock: UserSignupVO = mock(UserSignupVO::class.java)
         val userVO: UserVO = mock(UserVO::class.java)
 
-        `when`(userService.userSignup(userSignupVOMock)).thenReturn(userVO)
+        `when`(userServiceImpl.userSignup(userSignupVOMock)).thenReturn(userVO)
 
         val response = userController.userSignup(userSignupVOMock)
 
@@ -53,7 +53,7 @@ internal class UserControllerTest {
         assertEquals(HttpStatus.CREATED, response.statusCode)
         assertEquals(userVO, response.body)
 
-        verify(userService).userSignup(userSignupVOMock)
+        verify(userServiceImpl).userSignup(userSignupVOMock)
     }
 
     @Test
@@ -61,7 +61,7 @@ internal class UserControllerTest {
         val userLoginVO: UserLoginVO = mock(UserLoginVO::class.java)
         val userVO: UserVO = mock(UserVO::class.java)
 
-        `when`(userService.userLogin(userLoginVO)).thenReturn(userVO)
+        `when`(userServiceImpl.userLogin(userLoginVO)).thenReturn(userVO)
 
         val response = userController.userLogin(userLoginVO)
 
@@ -69,7 +69,7 @@ internal class UserControllerTest {
         assertEquals(HttpStatus.CREATED, response.statusCode)
         assertEquals(userVO, response.body)
 
-        verify(userService).userLogin(userLoginVO)
+        verify(userServiceImpl).userLogin(userLoginVO)
     }
 
     @Test
@@ -77,7 +77,7 @@ internal class UserControllerTest {
         val userVOMock: UserVO = mock(UserVO::class.java)
         val changePasswordVOMock: ChangePasswordVO = mock(ChangePasswordVO::class.java)
 
-        `when`(userService.changeUserPassword(changePasswordVOMock)).thenReturn(userVOMock)
+        `when`(userServiceImpl.changeUserPassword(changePasswordVOMock)).thenReturn(userVOMock)
 
         val response = userController.changeUserPassword(changePasswordVOMock)
 
@@ -85,14 +85,14 @@ internal class UserControllerTest {
         assertEquals(HttpStatus.OK, response.statusCode)
         assertEquals(userVOMock, response.body)
 
-        verify(userService).changeUserPassword(changePasswordVOMock)
+        verify(userServiceImpl).changeUserPassword(changePasswordVOMock)
     }
 
     @Test
     fun shouldDeleteUserByIdCorrectly() {
         val userIdMock: UUID = UUID.randomUUID()
 
-        `when`(userService.deleteUserById(userIdMock)).thenReturn(ResponseEntity.noContent().build())
+        `when`(userServiceImpl.deleteUserById(userIdMock)).thenReturn(ResponseEntity.noContent().build())
 
         val response = userController.deleteUserById(userIdMock)
 
@@ -100,14 +100,14 @@ internal class UserControllerTest {
         assertEquals(HttpStatus.NO_CONTENT, response.statusCode)
         assertNull(response.body)
 
-        verify(userService).deleteUserById(userIdMock)
+        verify(userServiceImpl).deleteUserById(userIdMock)
     }
 
     @Test
     fun shouldDeleteUserByIdMultipleTimesCorrectly() {
         val userIdMock: UUID = UUID.randomUUID()
 
-        `when`(userService.deleteUserById(userIdMock)).thenReturn(ResponseEntity.notFound().build())
+        `when`(userServiceImpl.deleteUserById(userIdMock)).thenReturn(ResponseEntity.notFound().build())
 
         val response = userController.deleteUserById(userIdMock)
 
@@ -115,6 +115,6 @@ internal class UserControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
         assertNull(response.body)
 
-        verify(userService).deleteUserById(userIdMock)
+        verify(userServiceImpl).deleteUserById(userIdMock)
     }
 }

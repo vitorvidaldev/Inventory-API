@@ -1,6 +1,6 @@
 package dev.vitorvidal.inventory.api.application.controller
 
-import dev.vitorvidal.inventory.api.application.service.ProductService
+import dev.vitorvidal.inventory.api.application.service.impl.ProductServiceImpl
 import dev.vitorvidal.inventory.api.domain.vo.product.ProductVO
 import dev.vitorvidal.inventory.api.domain.vo.product.RegisterProductVO
 import io.swagger.v3.oas.annotations.Operation
@@ -14,7 +14,7 @@ import java.util.*
 
 @RestController
 @RequestMapping("rest/v1/products")
-class ProductController(val productService: ProductService) {
+class ProductController(val productService: ProductServiceImpl) {
 
     @Operation(summary = "Returns product list")
     @ApiResponse(responseCode = "200", description = "Retrieve product list")

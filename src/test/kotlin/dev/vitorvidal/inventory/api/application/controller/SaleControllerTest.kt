@@ -1,6 +1,6 @@
 package dev.vitorvidal.inventory.api.application.controller
 
-import dev.vitorvidal.inventory.api.application.service.SaleService
+import dev.vitorvidal.inventory.api.application.service.impl.SaleServiceImpl
 import dev.vitorvidal.inventory.api.domain.vo.sale.SaleVO
 import dev.vitorvidal.inventory.api.domain.vo.sale.SellVO
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -23,14 +23,14 @@ internal class SaleControllerTest {
     lateinit var saleController: SaleController
 
     @Mock
-    lateinit var saleService: SaleService
+    lateinit var saleServiceImpl: SaleServiceImpl
 
     @Test
     fun shouldGetSaleDataCorrectly() {
         val saleIdMock = UUID.randomUUID()
         val saleVOMock = mock(SaleVO::class.java)
 
-        `when`(saleService.getSaleData(saleIdMock)).thenReturn(saleVOMock)
+        `when`(saleServiceImpl.getSaleData(saleIdMock)).thenReturn(saleVOMock)
 
         val response = saleController.getSaleData(saleIdMock)
 
@@ -38,7 +38,7 @@ internal class SaleControllerTest {
         assertEquals(HttpStatus.OK, response.statusCode)
         assertEquals(saleVOMock, response.body)
 
-        verify(saleService).getSaleData(saleIdMock)
+        verify(saleServiceImpl).getSaleData(saleIdMock)
     }
 
     @Test
@@ -46,7 +46,7 @@ internal class SaleControllerTest {
         val userIdMock = UUID.randomUUID()
         val saleVOMock = mock(SaleVO::class.java)
 
-        `when`(saleService.getUserPurchaseHistory(userIdMock))
+        `when`(saleServiceImpl.getUserPurchaseHistory(userIdMock))
             .thenReturn(PageImpl(listOf(saleVOMock)))
 
         val response = saleController.getUserPurchaseHistory(userIdMock)
@@ -56,7 +56,7 @@ internal class SaleControllerTest {
         assertNotNull(response.body)
         assertEquals(listOf(saleVOMock), response.body?.content)
 
-        verify(saleService).getUserPurchaseHistory(userIdMock)
+        verify(saleServiceImpl).getUserPurchaseHistory(userIdMock)
     }
 
     @Test
@@ -64,7 +64,7 @@ internal class SaleControllerTest {
         val sellVOMock = mock(SellVO::class.java)
         val saleVOMock = mock(SaleVO::class.java)
 
-        `when`(saleService.sell(sellVOMock)).thenReturn(saleVOMock)
+        `when`(saleServiceImpl.sell(sellVOMock)).thenReturn(saleVOMock)
 
         val response = saleController.sell(sellVOMock)
 
@@ -72,6 +72,6 @@ internal class SaleControllerTest {
         assertEquals(HttpStatus.CREATED, response.statusCode)
         assertEquals(saleVOMock, response.body)
 
-        verify(saleService).sell(sellVOMock)
+        verify(saleServiceImpl).sell(sellVOMock)
     }
 }

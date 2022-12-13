@@ -1,6 +1,6 @@
 package dev.vitorvidal.inventory.api.application.controller
 
-import dev.vitorvidal.inventory.api.application.service.SaleService
+import dev.vitorvidal.inventory.api.application.service.impl.SaleServiceImpl
 import dev.vitorvidal.inventory.api.domain.vo.sale.SaleVO
 import dev.vitorvidal.inventory.api.domain.vo.sale.SellVO
 import org.springframework.data.domain.Page
@@ -11,23 +11,23 @@ import java.util.*
 
 @RestController
 @RequestMapping("/rest/v1/sales")
-class SaleController(val saleService: SaleService) {
+class SaleController(val saleServiceImpl: SaleServiceImpl) {
 
     @GetMapping("/{saleId}")
     fun getSaleData(@PathVariable(value = "saleId") saleId: UUID): ResponseEntity<SaleVO> {
-        val saleVO: SaleVO = saleService.getSaleData(saleId)
+        val saleVO: SaleVO = saleServiceImpl.getSaleData(saleId)
         return ResponseEntity.ok().body(saleVO)
     }
 
     @GetMapping("/user/{userId}")
     fun getUserPurchaseHistory(@PathVariable(value = "userId") userId: UUID): ResponseEntity<Page<SaleVO>> {
-        val saleVO: Page<SaleVO> = saleService.getUserPurchaseHistory(userId)
+        val saleVO: Page<SaleVO> = saleServiceImpl.getUserPurchaseHistory(userId)
         return ResponseEntity.ok().body(saleVO)
     }
 
     @PostMapping
     fun sell(@RequestBody sellVO: SellVO): ResponseEntity<SaleVO> {
-        val saleVO: SaleVO = saleService.sell(sellVO)
+        val saleVO: SaleVO = saleServiceImpl.sell(sellVO)
         return ResponseEntity.status(HttpStatus.CREATED).body(saleVO)
     }
 }

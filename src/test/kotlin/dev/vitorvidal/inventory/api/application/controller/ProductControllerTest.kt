@@ -1,6 +1,6 @@
 package dev.vitorvidal.inventory.api.application.controller
 
-import dev.vitorvidal.inventory.api.application.service.ProductService
+import dev.vitorvidal.inventory.api.application.service.impl.ProductServiceImpl
 import dev.vitorvidal.inventory.api.domain.vo.product.ProductVO
 import dev.vitorvidal.inventory.api.domain.vo.product.RegisterProductVO
 import org.junit.jupiter.api.Assertions.*
@@ -21,7 +21,7 @@ internal class ProductControllerTest {
     lateinit var productController: ProductController
 
     @Mock
-    lateinit var productService: ProductService
+    lateinit var productService: ProductServiceImpl
 
     @Test
     fun shouldGetProductListCorrectly() {

@@ -1,5 +1,6 @@
 package dev.vitorvidal.inventory.api.application.service
 
+import dev.vitorvidal.inventory.api.application.service.impl.ProductServiceImpl
 import dev.vitorvidal.inventory.api.domain.entity.Product
 import dev.vitorvidal.inventory.api.domain.repository.ProductRepository
 import dev.vitorvidal.inventory.api.domain.vo.product.RegisterProductVO
@@ -19,9 +20,9 @@ import java.time.LocalDateTime
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
-internal class ProductServiceTest {
+internal class ProductServiceImplTest {
     @InjectMocks
-    lateinit var productService: ProductService
+    lateinit var productService: ProductServiceImpl
 
     @Mock
     lateinit var productRepository: ProductRepository
@@ -45,7 +46,7 @@ internal class ProductServiceTest {
         `when`(productMock.productPrice).thenReturn(productPriceMock)
         `when`(productMock.creationDate).thenReturn(creationDateMock)
         `when`(productMock.lastUpdateDate).thenReturn(lastUpdateDateMock)
-        `when`(productMock.userId).thenReturn(userIdMock)
+        `when`(productMock.user.userId).thenReturn(userIdMock)
 
         `when`(
             productRepository.findByFilter(
@@ -86,7 +87,7 @@ internal class ProductServiceTest {
         `when`(productMock.productPrice).thenReturn(productPriceMock)
         `when`(productMock.creationDate).thenReturn(creationDateMock)
         `when`(productMock.lastUpdateDate).thenReturn(lastUpdateDateMock)
-        `when`(productMock.userId).thenReturn(userIdMock)
+        `when`(productMock.user.userId).thenReturn(userIdMock)
 
         val productById = productService.getProductById(productIdMock)
 
@@ -139,7 +140,7 @@ internal class ProductServiceTest {
         `when`(registerProductVOMock.userId).thenReturn(userIdMock)
 
         `when`(productMock.productId).thenReturn(productIdMock)
-        `when`(productMock.userId).thenReturn(userIdMock)
+        `when`(productMock.user.userId).thenReturn(userIdMock)
         `when`(productMock.productName).thenReturn(productNameMock)
         `when`(productMock.productBrand).thenReturn(productBrandMock)
         `when`(productMock.productPrice).thenReturn(productPriceMock)

@@ -1,5 +1,6 @@
 package dev.vitorvidal.inventory.api.application.service
 
+import dev.vitorvidal.inventory.api.application.service.impl.UserServiceImpl
 import dev.vitorvidal.inventory.api.domain.entity.User
 import dev.vitorvidal.inventory.api.domain.repository.UserRepository
 import dev.vitorvidal.inventory.api.domain.vo.user.ChangePasswordVO
@@ -22,9 +23,9 @@ import java.time.LocalDateTime
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
-internal class UserServiceTest {
+internal class UserServiceImplTest {
     @InjectMocks
-    lateinit var userService: UserService
+    lateinit var userServiceImpl: UserServiceImpl
 
     @Mock
     lateinit var userRepository: UserRepository
@@ -41,7 +42,7 @@ internal class UserServiceTest {
         `when`(userMock.email).thenReturn(emailMock)
         `when`(userMock.creationDate).thenReturn(creationDateMock)
 
-        val userVo = userService.getUserById(userIdMock)
+        val userVo = userServiceImpl.getUserById(userIdMock)
 
         assertNotNull(userVo)
 
@@ -57,7 +58,7 @@ internal class UserServiceTest {
 
         `when`(userRepository.findById(userIdMock)).thenReturn(Optional.empty())
 
-        val exception = assertThrows(ResponseStatusException::class.java) { userService.getUserById(userIdMock) }
+        val exception = assertThrows(ResponseStatusException::class.java) { userServiceImpl.getUserById(userIdMock) }
 
         assertNotNull(exception)
         assertEquals(HttpStatus.NOT_FOUND, exception.statusCode)
@@ -83,7 +84,7 @@ internal class UserServiceTest {
         `when`(userMock.email).thenReturn(emailMock)
         `when`(userMock.creationDate).thenReturn(creationDateMock)
 
-        val userSignup = userService.userSignup(userSignupVOMock)
+        val userSignup = userServiceImpl.userSignup(userSignupVOMock)
 
         assertNotNull(userSignup)
         assertEquals(emailMock, userSignup.email)
@@ -103,7 +104,7 @@ internal class UserServiceTest {
         `when`(userRepository.findUserEntityByEmail(emailMock)).thenReturn(Optional.of(userMock))
 
         val exception = assertThrows(ResponseStatusException::class.java) {
-            userService.userSignup(userSignupVOMock)
+            userServiceImpl.userSignup(userSignupVOMock)
         }
 
         assertNotNull(exception)
@@ -119,7 +120,7 @@ internal class UserServiceTest {
 
         doNothing().`when`(userRepository).deleteById(userIdMock)
 
-        userService.deleteUserById(userIdMock)
+        userServiceImpl.deleteUserById(userIdMock)
 
         verify(userRepository).deleteById(userIdMock)
     }
@@ -130,7 +131,7 @@ internal class UserServiceTest {
 
         doThrow(EmptyResultDataAccessException::class.java).`when`(userRepository).deleteById(userIdMock)
 
-        userService.deleteUserById(userIdMock)
+        userServiceImpl.deleteUserById(userIdMock)
 
         verify(userRepository).deleteById(userIdMock)
     }
@@ -154,7 +155,7 @@ internal class UserServiceTest {
         `when`(userMock.password).thenReturn(passwordMock)
         `when`(userMock.creationDate).thenReturn(creationDateMock)
 
-        val userLogin = userService.userLogin(userLoginVOMock)
+        val userLogin = userServiceImpl.userLogin(userLoginVOMock)
 
         assertNotNull(userLogin)
         assertEquals(emailMock, userLogin.email)
@@ -171,7 +172,7 @@ internal class UserServiceTest {
         `when`(userLoginVOMock.email).thenReturn(emailMock)
 
         val exception = assertThrows(ResponseStatusException::class.java) {
-            userService.userLogin(userLoginVOMock)
+            userServiceImpl.userLogin(userLoginVOMock)
         }
 
         assertNotNull(exception)
@@ -203,7 +204,7 @@ internal class UserServiceTest {
         `when`(userMock.lastUpdateDate).thenReturn(creationDateMock)
         `when`(userMock.creationDate).thenReturn(creationDateMock)
 
-        val changeUserPassword = userService.changeUserPassword(changePasswordVOMock)
+        val changeUserPassword = userServiceImpl.changeUserPassword(changePasswordVOMock)
 
         assertNotNull(changePasswordVOMock)
         assertEquals(userIdMock, changeUserPassword.userId)
@@ -224,7 +225,7 @@ internal class UserServiceTest {
         `when`(changePasswordVOMock.userId).thenReturn(userIdMock)
 
         val exception = assertThrows(ResponseStatusException::class.java) {
-            userService.changeUserPassword(changePasswordVOMock)
+            userServiceImpl.changeUserPassword(changePasswordVOMock)
         }
 
         assertNotNull(exception)

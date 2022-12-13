@@ -1,5 +1,6 @@
 package dev.vitorvidal.inventory.api.application.service
 
+import dev.vitorvidal.inventory.api.application.service.impl.SaleServiceImpl
 import dev.vitorvidal.inventory.api.domain.entity.Sale
 import dev.vitorvidal.inventory.api.domain.repository.SaleRepository
 import dev.vitorvidal.inventory.api.domain.vo.sale.SellVO
@@ -20,9 +21,9 @@ import org.springframework.web.server.ResponseStatusException
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
-internal class SaleServiceTest {
+internal class SaleServiceImplTest {
     @InjectMocks
-    lateinit var saleService: SaleService
+    lateinit var saleServiceImpl: SaleServiceImpl
 
     @Mock
     lateinit var saleRepository: SaleRepository
@@ -40,7 +41,7 @@ internal class SaleServiceTest {
         `when`(saleMock.buyerId).thenReturn(userIdMock)
         `when`(saleMock.productId).thenReturn(productIdMock)
 
-        val saleVO = saleService.getSaleData(saleIdMock)
+        val saleVO = saleServiceImpl.getSaleData(saleIdMock)
 
         assertNotNull(saleVO)
         assertEquals(saleIdMock, saleVO.saleId)
@@ -57,7 +58,7 @@ internal class SaleServiceTest {
         `when`(saleRepository.findById(saleIdMock)).thenReturn(Optional.empty())
 
         val exception = assertThrows(ResponseStatusException::class.java) {
-            saleService.getSaleData(saleIdMock)
+            saleServiceImpl.getSaleData(saleIdMock)
         }
 
         assertNotNull(exception)
@@ -80,7 +81,7 @@ internal class SaleServiceTest {
         `when`(saleMock.buyerId).thenReturn(userIdMock)
         `when`(saleMock.productId).thenReturn(productIdMock)
 
-        val purchaseHistory = saleService.getUserPurchaseHistory(userIdMock)
+        val purchaseHistory = saleServiceImpl.getUserPurchaseHistory(userIdMock)
 
         assertNotNull(purchaseHistory)
         assertEquals(saleIdMock, purchaseHistory.content[0].saleId)
@@ -107,7 +108,7 @@ internal class SaleServiceTest {
 
         `when`(saleRepository.save(any())).thenReturn(saleMock)
 
-        val saleVO = saleService.sell(sellVOMock)
+        val saleVO = saleServiceImpl.sell(sellVOMock)
 
         assertNotNull(saleVO)
         assertEquals(saleIdMock, saleVO.saleId)

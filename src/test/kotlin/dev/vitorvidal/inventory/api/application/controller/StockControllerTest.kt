@@ -1,6 +1,6 @@
 package dev.vitorvidal.inventory.api.application.controller
 
-import dev.vitorvidal.inventory.api.application.service.StockService
+import dev.vitorvidal.inventory.api.application.service.impl.StockServiceImpl
 import dev.vitorvidal.inventory.api.domain.vo.stock.SetStockVO
 import dev.vitorvidal.inventory.api.domain.vo.stock.StockVO
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -22,14 +22,14 @@ internal class StockControllerTest {
     lateinit var stockController: StockController
 
     @Mock
-    lateinit var stockService: StockService
+    lateinit var stockServiceImpl: StockServiceImpl
 
     @Test
     fun shouldGetCurrentProductStockCorrectly() {
         val productIdMock: UUID = UUID.randomUUID()
         val stockVOMock: StockVO = mock(StockVO::class.java)
 
-        `when`(stockService.getProductStock(productIdMock)).thenReturn(stockVOMock)
+        `when`(stockServiceImpl.getProductStock(productIdMock)).thenReturn(stockVOMock)
 
         val response = stockController.getCurrentProductStock(productIdMock)
 
@@ -37,7 +37,7 @@ internal class StockControllerTest {
         assertEquals(HttpStatus.OK, response.statusCode)
         assertEquals(stockVOMock, response.body)
 
-        verify(stockService).getProductStock(productIdMock)
+        verify(stockServiceImpl).getProductStock(productIdMock)
     }
 
     @Test
@@ -45,7 +45,7 @@ internal class StockControllerTest {
         val setStockVOMock: SetStockVO = mock(SetStockVO::class.java)
         val stockVOMock: StockVO = mock(StockVO::class.java)
 
-        `when`(stockService.setProductStock(setStockVOMock)).thenReturn(stockVOMock)
+        `when`(stockServiceImpl.setProductStock(setStockVOMock)).thenReturn(stockVOMock)
 
         val response = stockController.updateProductStock(setStockVOMock)
 
@@ -53,6 +53,6 @@ internal class StockControllerTest {
         assertEquals(HttpStatus.CREATED, response.statusCode)
         assertEquals(stockVOMock, response.body)
 
-        verify(stockService).setProductStock(setStockVOMock)
+        verify(stockServiceImpl).setProductStock(setStockVOMock)
     }
 }

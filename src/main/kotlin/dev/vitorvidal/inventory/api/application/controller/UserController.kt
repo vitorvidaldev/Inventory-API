@@ -1,6 +1,6 @@
 package dev.vitorvidal.inventory.api.application.controller
 
-import dev.vitorvidal.inventory.api.application.service.UserService
+import dev.vitorvidal.inventory.api.application.service.impl.UserServiceImpl
 import dev.vitorvidal.inventory.api.domain.vo.user.ChangePasswordVO
 import dev.vitorvidal.inventory.api.domain.vo.user.UserLoginVO
 import dev.vitorvidal.inventory.api.domain.vo.user.UserSignupVO
@@ -15,7 +15,7 @@ import java.util.*
 
 @RestController
 @RequestMapping("/rest/v1/users")
-class UserController(val userService: UserService) {
+class UserController(val userServiceImpl: UserServiceImpl) {
 
     @Operation(summary = "Get user by id")
     @ApiResponse(
@@ -24,7 +24,7 @@ class UserController(val userService: UserService) {
     )
     @GetMapping("/{userId}")
     fun getUserById(@PathVariable(value = "userId") userId: UUID): ResponseEntity<UserVO> {
-        val userVO: UserVO = userService.getUserById(userId)
+        val userVO: UserVO = userServiceImpl.getUserById(userId)
         return ResponseEntity.ok().body(userVO)
     }
 
@@ -35,14 +35,14 @@ class UserController(val userService: UserService) {
     )
     @PostMapping("/signup")
     fun userSignup(@RequestBody @Valid userSignupVO: UserSignupVO): ResponseEntity<UserVO> {
-        val userVO: UserVO = userService.userSignup(userSignupVO)
+        val userVO: UserVO = userServiceImpl.userSignup(userSignupVO)
         return ResponseEntity.status(HttpStatus.CREATED).body(userVO)
     }
 
     @Operation(summary = "Login user")
     @PostMapping("/login")
     fun userLogin(@RequestBody @Valid userLoginVO: UserLoginVO): ResponseEntity<UserVO> {
-        val userVO: UserVO = userService.userLogin(userLoginVO)
+        val userVO: UserVO = userServiceImpl.userLogin(userLoginVO)
         return ResponseEntity.status(HttpStatus.CREATED).body(userVO)
     }
 
@@ -53,7 +53,7 @@ class UserController(val userService: UserService) {
     )
     @PutMapping("/{userId}")
     fun changeUserPassword(@RequestBody @Valid changePasswordVO: ChangePasswordVO): ResponseEntity<UserVO> {
-        val userVO: UserVO = userService.changeUserPassword(changePasswordVO)
+        val userVO: UserVO = userServiceImpl.changeUserPassword(changePasswordVO)
         return ResponseEntity.ok().body(userVO)
     }
 
@@ -64,6 +64,6 @@ class UserController(val userService: UserService) {
     )
     @DeleteMapping("/{userId}")
     fun deleteUserById(@PathVariable(value = "userId") userId: UUID): ResponseEntity<Void> {
-        return userService.deleteUserById(userId)
+        return userServiceImpl.deleteUserById(userId)
     }
 }
