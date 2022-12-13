@@ -15,7 +15,7 @@ class User() {
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    val userId: UUID = UUID.randomUUID()
+    lateinit var userId: UUID
 
     @Column(name = "email", unique = true)
     var email: String = ""
@@ -30,5 +30,5 @@ class User() {
     var lastUpdateDate: LocalDateTime = LocalDateTime.now()
 
     @OneToMany(mappedBy = "user")
-    lateinit var products: List<Product>
+    var products: List<Product> = ArrayList()
 }

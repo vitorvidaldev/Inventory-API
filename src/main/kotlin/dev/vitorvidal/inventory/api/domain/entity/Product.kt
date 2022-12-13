@@ -40,4 +40,7 @@ class Product() {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     lateinit var user: User
+
+    @OneToOne(optional = false, mappedBy = "product")
+    lateinit var stock: Stock
 }

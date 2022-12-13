@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-  postgres:
+  postgres: # the container host address is postgres
     image: postgres:14.2-alpine3.15
     restart: always
     ports:
@@ -15,18 +15,15 @@ services:
     networks:
       - postgres
 
-  dbeaver:
-    image: dbeaver/cloudbeaver:22.2.5
+  metabase:
+    image: metabase/metabase
     ports:
-      - "8081:8978"
-    volumes:
-      - workspace:/opt/cloudbeaver/workspace
+      - "3000:3000"
     networks:
       - postgres
 
 volumes:
   postgresql_data:
-  workspace:
 
 networks:
   postgres:

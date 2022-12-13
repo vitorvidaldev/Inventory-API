@@ -1,14 +1,13 @@
 package dev.vitorvidal.inventory.api.domain.vo.user
 
 import io.swagger.v3.oas.annotations.media.Schema
-import jakarta.persistence.Column
 import java.time.LocalDateTime
 import java.util.*
 
 @Schema(name = "User", description = "User data")
 data class UserVO(
-    var userId: UUID = UUID.randomUUID(),
-    @Column(unique = true)
+    var userId: UUID,
     var email: String,
+    var products: List<UUID> = ArrayList(),
     var creationDate: LocalDateTime = LocalDateTime.now()
 )

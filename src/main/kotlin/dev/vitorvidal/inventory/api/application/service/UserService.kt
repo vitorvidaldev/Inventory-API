@@ -30,6 +30,7 @@ class UserService(val userRepository: UserRepository) {
             return UserVO(
                 userEntity.get().userId,
                 userEntity.get().email,
+                userEntity.get().products.parallelStream().map { product -> product.productId }.toList(),
                 userEntity.get().creationDate
             )
         }
@@ -43,7 +44,12 @@ class UserService(val userRepository: UserRepository) {
             val user = User(userSignupVO.email, userSignupVO.password)
             val createdUser = userRepository.save(user)
 
-            return UserVO(createdUser.userId, createdUser.email, createdUser.creationDate)
+            return UserVO(
+                createdUser.userId,
+                createdUser.email,
+                createdUser.products.parallelStream().map { product -> product.productId }.toList(),
+                createdUser.creationDate
+            )
         }
 
         throw ResponseStatusException(HttpStatus.CONFLICT, "User already exists")
@@ -59,6 +65,7 @@ class UserService(val userRepository: UserRepository) {
             return UserVO(
                 userEntity.userId,
                 userEntity.email,
+                userEntity.products.parallelStream().map { product -> product.productId }.toList(),
                 userEntity.creationDate
             )
 
@@ -82,6 +89,7 @@ class UserService(val userRepository: UserRepository) {
             return UserVO(
                 userEntity.userId,
                 userEntity.email,
+                userEntity.products.parallelStream().map { product -> product.productId }.toList(),
                 userEntity.creationDate
             )
         }
