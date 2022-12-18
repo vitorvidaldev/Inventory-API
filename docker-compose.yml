@@ -1,29 +1,22 @@
 version: '3.9'
 
 services:
-  postgres: # the container host address is postgres
-    image: postgres:14.2-alpine3.15
-    restart: always
-    ports:
-      - "5432:5432"
+  mysql:
+    image: 'bitnami/mysql:5.7'
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: inventory_management
-    volumes:
-      - postgresql_data:/var/lib/postgresql/data
-    networks:
-      - postgres
-
-  metabase:
-    image: metabase/metabase
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=admin@123
+      - MYSQL_DATABASE=inventory_management
     ports:
-      - "3000:3000"
+      - "3306:3306"
     networks:
-      - postgres
+      - app-tier
+    volumes:
+      - mysql-persistence:/bitnami/mysql/data
 
 volumes:
-  postgresql_data:
+  mysql-persistence:
 
 networks:
-  postgres:
+  app-tier:
