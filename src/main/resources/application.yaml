@@ -10,7 +10,11 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
+
+server:
+  error:
+    include-stacktrace: on_param
 
 jwt:
   secret: WzYwLCAtMTE0LCAtMTI4LCAtMTIsIC0xMjgsIDExLCAtODgsIC0xMjAsIDEwNywgMzMsIDY0LCA1OSwgLTcsIDY5LCAxMCwgLTk4LCAtNzUsIDEyMywgMjIsIC0zNSwgNzcsIC0xMTYsIDExMywgOTgsIDExNSwgLTk5LCAtNjMsIC01MiwgMTExLCAtNzMsIC0xMTcsIDQzXQ==

@@ -4,16 +4,9 @@ import jakarta.persistence.*
 import java.time.LocalDateTime
 import java.util.*
 
-@Entity
+@Entity(name = "Stock")
 @Table(name = "stock")
-class Stock() {
-    constructor(stock: Int, product: Product) : this() {
-        this.value = stock
-        this.product = product
-        this.creationDate = LocalDateTime.now()
-        this.lastUpdateDate = LocalDateTime.now()
-    }
-
+open class Stock {
     @Id
     @Column(name = "stock_id")
     @GeneratedValue(strategy = GenerationType.AUTO)

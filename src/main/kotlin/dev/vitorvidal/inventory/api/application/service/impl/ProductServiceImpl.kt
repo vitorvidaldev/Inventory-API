@@ -68,12 +68,12 @@ class ProductServiceImpl(val productRepository: ProductRepository, val userRepos
     }
 
     override fun registerProduct(registerProductVO: RegisterProductVO): ProductVO {
-        val product = Product(
-            registerProductVO.productName,
-            registerProductVO.productBrand,
-            registerProductVO.productPrice,
-            userRepository.findById(registerProductVO.userId).get()
-        )
+        val product = Product()
+        product.productName = registerProductVO.productName
+        product.productBrand = registerProductVO.productBrand
+        product.productPrice = registerProductVO.productPrice
+        userRepository.findById(registerProductVO.userId).get()
+        // TODO user entity manager
 
         val createdProduct = productRepository.save(product)
 

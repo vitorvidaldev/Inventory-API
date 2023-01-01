@@ -4,16 +4,9 @@ import jakarta.persistence.*
 import java.time.LocalDateTime
 import java.util.*
 
-@Entity
+@Entity(name = "Product")
 @Table(name = "product")
-class Product() {
-    constructor(productName: String, productBrand: String, productPrice: Double, user: User) : this() {
-        this.productName = productName
-        this.productBrand = productBrand
-        this.productPrice = productPrice
-        this.user = user
-    }
-
+open class Product {
     @Id
     @Column(name = "product_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,7 +22,7 @@ class Product() {
     var productPrice: Double = 0.0
 
     @Column(name = "created_at")
-    val creationDate: LocalDateTime = LocalDateTime.now()
+    var creationDate: LocalDateTime = LocalDateTime.now()
 
     @Column(name = "is_active")
     val isActive: Boolean = true

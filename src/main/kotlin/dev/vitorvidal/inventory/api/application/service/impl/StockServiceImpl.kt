@@ -41,7 +41,11 @@ class StockServiceImpl(val stockRepository: StockRepository, val productReposito
         }
 
         val product = productRepository.findById(setStockVO.productId).get()
-        val stock = Stock(setStockVO.value, product)
+        val stock = Stock()
+        stock.value = setStockVO.value
+        stock.product = product
+        // TODO use entity manager
+
         stockRepository.save(stock)
         return StockVO(stock.stockId, stock.product.productId, stock.value)
     }

@@ -35,7 +35,11 @@ class SaleServiceImpl(val saleRepository: SaleRepository) : SaleService {
     }
 
     override fun sell(sellVO: SellVO): SaleVO {
-        val sale = saleRepository.save(Sale(sellVO.userId, sellVO.productId))
+        var sale = Sale()
+        sale.buyerId = sellVO.userId
+        sale.productId = sellVO.productId
+        sale = saleRepository.save(sale)
+        // TODO use entity manager
         return SaleVO(sale.saleId, sale.productId, sale.buyerId)
     }
 }

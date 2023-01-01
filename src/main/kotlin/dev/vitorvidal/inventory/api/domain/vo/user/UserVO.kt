@@ -8,6 +8,5 @@ import java.util.*
 data class UserVO(
     var userId: UUID,
     var email: String,
-    var products: List<UUID> = ArrayList(),
     var creationDate: LocalDateTime = LocalDateTime.now()
 )

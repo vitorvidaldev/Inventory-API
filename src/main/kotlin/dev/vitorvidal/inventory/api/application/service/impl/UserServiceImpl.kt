@@ -31,7 +31,6 @@ class UserServiceImpl(val userRepository: UserRepository) : UserService {
             return UserVO(
                 userEntity.get().userId,
                 userEntity.get().email,
-                userEntity.get().products.parallelStream().map { product -> product.productId }.toList(),
                 userEntity.get().creationDate
             )
         }
@@ -42,13 +41,16 @@ class UserServiceImpl(val userRepository: UserRepository) : UserService {
         val optionalUser = userRepository.findUserEntityByEmail(userSignupVO.email)
 
         if (optionalUser.isEmpty) {
-            val user = User(userSignupVO.email, userSignupVO.password)
+            val user = User()
+            user.email = userSignupVO.email
+            user.password = userSignupVO.password
+            // TODO use entity manager
+
             val createdUser = userRepository.save(user)
 
             return UserVO(
                 createdUser.userId,
                 createdUser.email,
-                createdUser.products.parallelStream().map { product -> product.productId }.toList(),
                 createdUser.creationDate
             )
         }
@@ -66,7 +68,6 @@ class UserServiceImpl(val userRepository: UserRepository) : UserService {
             return UserVO(
                 userEntity.userId,
                 userEntity.email,
-                userEntity.products.parallelStream().map { product -> product.productId }.toList(),
                 userEntity.creationDate
             )
 
@@ -90,7 +91,6 @@ class UserServiceImpl(val userRepository: UserRepository) : UserService {
             return UserVO(
                 userEntity.userId,
                 userEntity.email,
-                userEntity.products.parallelStream().map { product -> product.productId }.toList(),
                 userEntity.creationDate
             )
         }
