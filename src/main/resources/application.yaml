@@ -2,15 +2,15 @@ spring:
   output:
     ansi:
       enabled: ALWAYS
-  datasource:
-    url: jdbc:mysql://localhost:3306/inventory_management
-    username: user
-    password: admin@123
-    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create-drop
+
+datasource-url: jdbc:mysql://localhost:3306/inventory_management
+datasource-username: user
+datasource-password: admin@123
+datasource-driver-class-name: com.mysql.cj.jdbc.Driver
 
 server:
   error:
