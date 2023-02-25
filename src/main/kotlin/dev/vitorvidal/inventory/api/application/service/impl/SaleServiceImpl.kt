@@ -20,8 +20,8 @@ class SaleServiceImpl(val saleRepository: SaleRepository) : SaleService {
             val sale = optionalSale.get()
             return SaleVO(
                 sale.saleId,
-                sale.productId,
-                sale.buyerId
+                sale.productId!!,
+                sale.buyerId!!
             )
         }
         throw ResponseStatusException(HttpStatus.NOT_FOUND, "Error getting sale data")
@@ -30,7 +30,7 @@ class SaleServiceImpl(val saleRepository: SaleRepository) : SaleService {
     override fun getUserPurchaseHistory(userId: UUID): Page<SaleVO> {
         val buyerPurchaseData = saleRepository.findByBuyerId(userId, Pageable.ofSize(10))
         return buyerPurchaseData.map { data ->
-            SaleVO(data.saleId, data.productId, data.buyerId)
+            SaleVO(data.saleId, data.productId!!, data.buyerId!!)
         }
     }
 
@@ -40,6 +40,6 @@ class SaleServiceImpl(val saleRepository: SaleRepository) : SaleService {
         sale.productId = sellVO.productId
         sale = saleRepository.save(sale)
         // TODO use entity manager
-        return SaleVO(sale.saleId, sale.productId, sale.buyerId)
+        return SaleVO(sale.saleId, sale.productId!!, sale.buyerId!!)
     }
 }

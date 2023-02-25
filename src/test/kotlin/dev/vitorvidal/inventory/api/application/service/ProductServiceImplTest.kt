@@ -46,7 +46,7 @@ internal class ProductServiceImplTest {
         `when`(productMock.productPrice).thenReturn(productPriceMock)
         `when`(productMock.creationDate).thenReturn(creationDateMock)
         `when`(productMock.lastUpdateDate).thenReturn(lastUpdateDateMock)
-        `when`(productMock.user.userId).thenReturn(userIdMock)
+        `when`(productMock.user!!.userId).thenReturn(userIdMock)
 
         `when`(
             productRepository.findByFilter(
@@ -87,7 +87,7 @@ internal class ProductServiceImplTest {
         `when`(productMock.productPrice).thenReturn(productPriceMock)
         `when`(productMock.creationDate).thenReturn(creationDateMock)
         `when`(productMock.lastUpdateDate).thenReturn(lastUpdateDateMock)
-        `when`(productMock.user.userId).thenReturn(userIdMock)
+        `when`(productMock.user!!.userId).thenReturn(userIdMock)
 
         val productById = productService.getProductById(productIdMock)
 
@@ -140,7 +140,7 @@ internal class ProductServiceImplTest {
         `when`(registerProductVOMock.userId).thenReturn(userIdMock)
 
         `when`(productMock.productId).thenReturn(productIdMock)
-        `when`(productMock.user.userId).thenReturn(userIdMock)
+        `when`(productMock.user!!.userId).thenReturn(userIdMock)
         `when`(productMock.productName).thenReturn(productNameMock)
         `when`(productMock.productBrand).thenReturn(productBrandMock)
         `when`(productMock.productPrice).thenReturn(productPriceMock)

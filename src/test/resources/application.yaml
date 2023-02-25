@@ -5,12 +5,13 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create-drop
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: user
-    password: admin@123
-    url: jdbc:mysql://localhost:3306/inventory_management
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:inventory_management;DB_CLOSE_DELAY=-1;NON_KEYWORDS=KEY,VALUE
+    username: admin
+    password:
+
 
 server:
   error:

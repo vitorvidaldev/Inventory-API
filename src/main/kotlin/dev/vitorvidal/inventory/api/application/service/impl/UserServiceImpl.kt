@@ -29,9 +29,9 @@ class UserServiceImpl(val userRepository: UserRepository) : UserService {
 
         if (userEntity.isPresent) {
             return UserVO(
-                userEntity.get().userId,
-                userEntity.get().email,
-                userEntity.get().creationDate
+                userEntity.get().userId!!,
+                userEntity.get().email!!,
+                userEntity.get().creationDate!!
             )
         }
         throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")
@@ -44,17 +44,18 @@ class UserServiceImpl(val userRepository: UserRepository) : UserService {
             val user = User()
             user.email = userSignupVO.email
             user.password = userSignupVO.password
+            user.creationDate = LocalDateTime.now()
+            user.lastUpdateDate = LocalDateTime.now()
             // TODO use entity manager
 
             val createdUser = userRepository.save(user)
 
             return UserVO(
-                createdUser.userId,
-                createdUser.email,
-                createdUser.creationDate
+                createdUser.userId!!,
+                createdUser.email!!,
+                createdUser.creationDate!!
             )
         }
-
         throw ResponseStatusException(HttpStatus.CONFLICT, "User already exists")
     }
 
@@ -66,11 +67,10 @@ class UserServiceImpl(val userRepository: UserRepository) : UserService {
         ) {
             val userEntity = optionalUser.get()
             return UserVO(
-                userEntity.userId,
-                userEntity.email,
-                userEntity.creationDate
+                userEntity.userId!!,
+                userEntity.email!!,
+                userEntity.creationDate!!
             )
-
         }
         throw ResponseStatusException(HttpStatus.NOT_FOUND, "Could not log in")
     }
@@ -89,9 +89,9 @@ class UserServiceImpl(val userRepository: UserRepository) : UserService {
             userRepository.save(userEntity)
 
             return UserVO(
-                userEntity.userId,
-                userEntity.email,
-                userEntity.creationDate
+                userEntity.userId!!,
+                userEntity.email!!,
+                userEntity.creationDate!!
             )
         }
         throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")

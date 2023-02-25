@@ -6,7 +6,7 @@ import java.util.*
 
 @Entity(name = "Sale")
 @Table(name = "sale")
-open class Sale {
+class Sale {
     @Id
     @Column(name = "sale_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,8 +16,8 @@ open class Sale {
     var creationDate: LocalDateTime = LocalDateTime.now()
 
     @Column(name = "product_id")
-    lateinit var productId: UUID
+    var productId: UUID? = null
 
     @Column(name = "buyer_id")
-    lateinit var buyerId: UUID
+    var buyerId: UUID? = null
 }

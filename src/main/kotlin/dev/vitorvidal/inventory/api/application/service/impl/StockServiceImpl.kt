@@ -21,9 +21,9 @@ class StockServiceImpl(val stockRepository: StockRepository, val productReposito
             val stockEntity = optionalStock.get()
 
             return StockVO(
-                stockEntity.stockId,
-                stockEntity.product.productId,
-                stockEntity.value
+                stockEntity.stockId!!,
+                stockEntity.product!!.productId,
+                stockEntity.value!!
             )
         }
         throw ResponseStatusException(HttpStatus.NOT_FOUND, "Stock not found for product $productId")
@@ -36,7 +36,7 @@ class StockServiceImpl(val stockRepository: StockRepository, val productReposito
                 val stockEntity = optionalStock.get()
                 stockEntity.value = setStockVO.value
                 stockRepository.save(stockEntity)
-                return StockVO(stockEntity.stockId, stockEntity.product.productId, stockEntity.value)
+                return StockVO(stockEntity.stockId!!, stockEntity.product!!.productId, stockEntity.value!!)
             }
         }
 
@@ -47,6 +47,6 @@ class StockServiceImpl(val stockRepository: StockRepository, val productReposito
         // TODO use entity manager
 
         stockRepository.save(stock)
-        return StockVO(stock.stockId, stock.product.productId, stock.value)
+        return StockVO(stock.stockId!!, stock.product!!.productId, stock.value!!)
     }
 }

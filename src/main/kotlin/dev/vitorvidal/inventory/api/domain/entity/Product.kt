@@ -6,7 +6,7 @@ import java.util.*
 
 @Entity(name = "Product")
 @Table(name = "product")
-open class Product {
+class Product {
     @Id
     @Column(name = "product_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,15 +25,15 @@ open class Product {
     var creationDate: LocalDateTime = LocalDateTime.now()
 
     @Column(name = "is_active")
-    val isActive: Boolean = true
+    var isActive: Boolean = true
 
     @Column(name = "updated_at")
     var lastUpdateDate: LocalDateTime = LocalDateTime.now()
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    lateinit var user: User
+    var user: User? = null
 
     @OneToOne(optional = false, mappedBy = "product")
-    lateinit var stock: Stock
+    var stock: Stock? = null
 }

@@ -6,21 +6,36 @@ import java.util.*
 
 @Entity
 @Table(name = "\"user\"") // the quotes are used to avoid a database conflict
-open class User {
+class User {
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    lateinit var userId: UUID
+    val userId: UUID? = null
 
     @Column(name = "email", unique = true)
-    var email: String = ""
+    var email: String? = null
 
     @Column(name = "password")
-    var password: String = ""
+    var password: String? = null
 
     @Column(name = "creation_date")
-    var creationDate: LocalDateTime = LocalDateTime.now()
+    var creationDate: LocalDateTime? = null
 
     @Column(name = "last_update_date")
-    var lastUpdateDate: LocalDateTime = LocalDateTime.now()
+    var lastUpdateDate: LocalDateTime? = null
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is User) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int = userId?.hashCode() ?: 0
+
+    override fun toString(): String {
+        return "User(userId=$userId, email=$email, password=$password, creationDate=$creationDate, lastUpdateDate=$lastUpdateDate)"
+    }
+
+
 }

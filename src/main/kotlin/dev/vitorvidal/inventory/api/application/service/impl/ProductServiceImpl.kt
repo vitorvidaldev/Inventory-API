@@ -41,7 +41,7 @@ class ProductServiceImpl(val productRepository: ProductRepository, val userRepos
                 productEntity.creationDate,
                 productEntity.isActive,
                 productEntity.lastUpdateDate,
-                productEntity.user.userId
+                productEntity.user!!.userId!!
             )
         }
     }
@@ -60,7 +60,7 @@ class ProductServiceImpl(val productRepository: ProductRepository, val userRepos
                 productEntity.creationDate,
                 productEntity.isActive,
                 productEntity.lastUpdateDate,
-                productEntity.user.userId
+                productEntity.user!!.userId!!
             )
         }
 
@@ -85,7 +85,7 @@ class ProductServiceImpl(val productRepository: ProductRepository, val userRepos
             createdProduct.creationDate,
             product.isActive,
             createdProduct.lastUpdateDate,
-            createdProduct.user.userId
+            createdProduct.user!!.userId!!
         )
     }
 

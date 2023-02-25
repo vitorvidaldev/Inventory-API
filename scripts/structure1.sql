@@ -1,7 +1,7 @@
-drop table if exists product
-drop table if exists sale
-drop table if exists stock
-drop table if exists `user`
+drop table if exists product;
+drop table if exists sale;
+drop table if exists stock;
+drop table if exists `user`;
 
 CREATE TABLE user (
   user_id char(36) NOT NULL,
@@ -11,7 +11,6 @@ CREATE TABLE user (
    last_update_date datetime NULL,
    CONSTRAINT pk_user PRIMARY KEY (user_id)
 );
-
 
 CREATE TABLE sale (
   sale_id char(36) NOT NULL,
@@ -29,7 +28,6 @@ CREATE TABLE stock (
    product_product_id char(36) NOT NULL,
    CONSTRAINT pk_stock PRIMARY KEY (stock_id)
 );
-
 
 CREATE TABLE product (
   product_id char(36) NOT NULL,
